@@ -1,7 +1,9 @@
 package dev.ansuro.config;
 
+import dev.ansuro.domain.Authority;
 import dev.ansuro.domain.Ingredient;
 import dev.ansuro.domain.Pizza;
+import dev.ansuro.repository.AuthorityRepository;
 import dev.ansuro.repository.IngredientRepository;
 import dev.ansuro.repository.PizzaRepository;
 import java.util.Arrays;
@@ -25,6 +27,9 @@ public class DevDBInit {
     
     @Autowired
     private PizzaRepository pizzaRepository;
+    
+    @Autowired
+    private AuthorityRepository authorityRepository;
     
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
@@ -63,6 +68,14 @@ public class DevDBInit {
             pizza = new Pizza("Vegetarian", 10.00);
             pizza.setIngredients(Arrays.asList(tomatoSauce, mozzarella, garlic, blackOlives, paprika, redOnions));
             pizzaRepository.save(pizza);
+        }
+        
+        if(authorityRepository.count() == 0) {
+            Authority authority = new Authority("USER");
+            authorityRepository.save(authority);
+            
+            authority = new Authority("ADMIN");
+            authorityRepository.save(authority);
         }
         
     }

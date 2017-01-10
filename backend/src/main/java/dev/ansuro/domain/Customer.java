@@ -6,12 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
  * @author Andy
  */
-@Entity
+@Entity(name = "_customer")
 public class Customer implements Serializable {
     
     @Id
@@ -26,7 +28,11 @@ public class Customer implements Serializable {
     private String city;
     private String phone;
     
+    @Email
     private String mail;
+    
+    @OneToOne(mappedBy = "customer")
+    private User user;
     
     @OneToMany
     private List<Order> orders;
