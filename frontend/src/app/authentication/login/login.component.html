@@ -1,0 +1,25 @@
+<div bsModal #loginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="login()" #f="ngForm">
+          <div class="form-group">
+            <label for="pw">E-Mail:</label>
+            <input type="email" class="form-control" required placeholder="email" name="email" [(ngModel)]="email" />
+          </div>
+          <div class="form-group">
+            <label for="pw">Password:</label>
+            <input type="password" class="form-control" required placeholder="password" id="pw" name="pw" [(ngModel)]="pw" />
+          </div>
+          <button type="submit" [disabled]="!f.form.valid">submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

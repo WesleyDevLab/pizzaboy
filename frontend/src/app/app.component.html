@@ -1,0 +1,22 @@
+<app-login #c="child"></app-login>
+<div class="container">
+<!--  <div class="row">
+    HEADER LOGO
+  </div>-->
+  <div class="row header">
+    <div class="col-md-12">
+      <nav role="navigation">
+        <ul class="nav navbar-nav">
+          <li role="presentation"><a routerLink="/">Deal of the Day</a></li>
+          <li role="presentation"><a routerLink="/pizza">pizza</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li role="presentation"><a (click)="c.showLogin()">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+</div>

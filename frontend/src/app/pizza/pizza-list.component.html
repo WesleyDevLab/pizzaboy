@@ -1,0 +1,23 @@
+<div class="col-md-9">
+  <p *ngIf="errorMessage">{{errorMessage}}</p>
+  <h2>Pizza</h2>
+  <div class="row" *ngFor="let pizza of pizzas">
+    <div class="col-md-12">{{pizza.name}}
+      <div class="row">
+        <div class="col-md-3">PICTURE</div>
+        <div class="col-md-9">
+          <span class="label label-primary" style="margin-left: 5px;" *ngFor="let ing of pizza.ingredients">{{ing.name}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-md-offset-10">
+          <input #quantity type="number" maxlength="2" min="1" max="9" size="1" value="1" pattern="[1-9]{1}" />
+          <button (click)="addToCart(pizza, quantity.value)"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-3">
+  <shopping-cart></shopping-cart>
+</div>
