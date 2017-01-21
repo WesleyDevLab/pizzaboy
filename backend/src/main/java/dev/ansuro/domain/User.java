@@ -1,7 +1,12 @@
 package dev.ansuro.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,22 +15,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
  * @author Andy
  */
-@Entity
+@Entity(name = "_User")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
     
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CUSTOMER_ID")
-    private Customer customer;
+//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Customer customer;
     
+    @Email
+    @Column(unique = true)
+    private String mail;
+    
+    //@JsonIgnore
     private String password;
     
     @ManyToMany
@@ -42,12 +53,25 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+//    public Customer getCustomer() {
+//        return customer;
+//    }
+//    
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
+
+//    public void addCustomer(Customer customer) {
+//        customer.setUser(this);
+//        this.customer = customer;
+//    }
+
+    public String getMail() {
+        return mail;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword() {
@@ -68,6 +92,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", customer=" + customer + ", password=" + password + ", authorities=" + authorities + '}';
+        return "User{" + "id=" + id + ", mail=" + mail + ", password=" + password + ", authorities=" + authorities + '}';
     }
 }

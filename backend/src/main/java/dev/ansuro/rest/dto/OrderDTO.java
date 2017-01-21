@@ -1,37 +1,32 @@
 package dev.ansuro.rest.dto;
 
-import dev.ansuro.domain.Order;
+import dev.ansuro.domain.Customer;
+import java.util.List;
 
 /**
  *
  * @author Andy
  */
-public class OrderDTO extends Order {
-    private boolean register;
-    private String password;
+public class OrderDTO {
+    private Customer customer;
+    private List<OrderItemDTO> items;
 
     public OrderDTO() {
     }
 
-    public boolean isRegister() {
-        return register;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setRegister(boolean register) {
-        this.register = register;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public String getPassword() {
-        return password;
+    public List<OrderItemDTO> getItems() {
+        return items;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setItems(List<OrderItemDTO> items) {
+        this.items = items;
     }
-
-    @Override
-    public String toString() {
-        return "OrderDTO{" + "register=" + register + ", password=" + password + " " + super.toString() + '}';
-    }
-
 }

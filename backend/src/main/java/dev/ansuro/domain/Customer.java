@@ -1,13 +1,17 @@
 package dev.ansuro.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import org.hibernate.validator.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -20,21 +24,32 @@ public class Customer implements Serializable {
     @GeneratedValue
     private Long id;
     
+    @NotNull
     private String firstname;
+    
+    @NotNull
     private String lastname;
+    
+    @NotNull
     private String street;
+    
+    @NotNull
     private String housenumber;
+    
+    @NotNull
     private int zip;
+    
+    @NotNull
     private String city;
+    
+    @NotNull
     private String phone;
     
-    @Email
-    private String mail;
-    
-    @OneToOne(mappedBy = "customer")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
     
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private List<Order> orders;
 
     public Customer() {
@@ -104,12 +119,12 @@ public class Customer implements Serializable {
         this.phone = phone;
     }
 
-    public String getMail() {
-        return mail;
+    public User getUser() {
+        return user;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Order> getOrders() {
@@ -122,7 +137,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + ", mail=" + mail + '}';
+        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + ", user=" + user + ", orders=" + orders + '}';
     }
-    
 }

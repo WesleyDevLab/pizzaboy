@@ -2,11 +2,13 @@ package dev.ansuro.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -19,10 +21,12 @@ public class Order implements Serializable {
     @GeneratedValue
     private Long id;
     
-    @ManyToOne
+    @NotNull
+    @ManyToOne(optional = false)
     private Customer customer;
     
-    @OneToMany
+    @NotNull
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
     
     private Boolean delivered;

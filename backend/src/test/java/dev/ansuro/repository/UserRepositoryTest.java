@@ -40,17 +40,17 @@ public class UserRepositoryTest {
         customer.setCity("city");
         customer.setZip(555);
         customer.setPhone("555 / 12345");
-        customer.setMail(email);
         customerRepository.saveAndFlush(customer);
         
         User user = new User();
+        user.setMail(email);
         user.setPassword("1234");
-        user.setCustomer(customer);
+        //user.setCustomer(customer);
         userRepository.saveAndFlush(user);
         
-        Optional<User> result = userRepository.findOneByEmail(email);
+        Optional<User> result = userRepository.findOneByMail(email);
         assertTrue(result.isPresent());
-        assertEquals(result.get().getCustomer().getMail(), email);
+        assertEquals(result.get().getMail(), email);
     }
 
     

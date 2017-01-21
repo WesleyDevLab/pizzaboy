@@ -1,3 +1,5 @@
+import { User } from '../authentication/user.model';
+
 export class Customer {
     public id: number;
     public firstname: string;
@@ -7,6 +9,5 @@ export class Customer {
     public zip: number;
     public city: string;
     public phone: string;
-    public mail: string;
-    public password: string;
+    public user?: User;
 }

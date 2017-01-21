@@ -1,6 +1,7 @@
 package dev.ansuro.config;
 
 import dev.ansuro.security.FailureHandler;
+import dev.ansuro.security.RestAuthEntryPoint;
 import dev.ansuro.security.SuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
     
+    @Autowired
+    private RestAuthEntryPoint authEntryPoint;
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -49,15 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/h2-console/**");
     }
     
-    
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // TODO check again
         http.csrf().disable();
         http.cors()
-        
-        
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPoint)
             .and()
                 .formLogin()
                 .loginProcessingUrl("/api/authentication")

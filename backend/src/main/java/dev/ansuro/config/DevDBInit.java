@@ -57,15 +57,15 @@ public class DevDBInit {
             Ingredient basil = new Ingredient("Basil", "Fresh Basil");
             ingredientRepository.save(basil);
             
-            Pizza pizza = new Pizza("Margherita", 13.00);
+            Pizza pizza = new Pizza("001", "Margherita", 13.00);
             pizza.setIngredients(Arrays.asList(tomatoSauce, cheese, garlic, basil));
             pizzaRepository.save(pizza);
             
-            pizza = new Pizza("Cheese", 10.00);
+            pizza = new Pizza("002", "Cheese", 10.00);
             pizza.setIngredients(Arrays.asList(tomatoSauce, cheese));
             pizzaRepository.save(pizza);
             
-            pizza = new Pizza("Vegetarian", 10.00);
+            pizza = new Pizza("003", "Vegetarian", 10.00);
             pizza.setIngredients(Arrays.asList(tomatoSauce, mozzarella, garlic, blackOlives, paprika, redOnions));
             pizzaRepository.save(pizza);
         }

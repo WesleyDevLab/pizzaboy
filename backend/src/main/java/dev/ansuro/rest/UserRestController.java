@@ -1,8 +1,7 @@
 package dev.ansuro.rest;
 
-import dev.ansuro.domain.Order;
-import dev.ansuro.rest.dto.OrderDTO;
-import dev.ansuro.service.OrderService;
+import dev.ansuro.domain.User;
+import dev.ansuro.service.UserService;
 import java.net.URI;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
-public class OrderRestController {
-    
+public class UserRestController {
     @Autowired
     private Logger log;
     
     @Autowired
-    private OrderService orderService;
+    private UserService userService;
     
-    @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public ResponseEntity<Order> saveOrder(@RequestBody OrderDTO order) {
-        log.debug("TEST: {}", order);
+    @RequestMapping(path = "/user", method = RequestMethod.POST)
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        log.debug(user.toString());
+        User createdUser = userService.registerUser(user);
         
-        Order createdOrder = orderService.createOrder(order);
-        
-        return ResponseEntity.created(URI.create("/api/order/" + createdOrder.getId())).body(createdOrder);
+        return ResponseEntity.created(URI.create("/api/user/" + createdUser.getId())).body(createdUser);
     }
 }

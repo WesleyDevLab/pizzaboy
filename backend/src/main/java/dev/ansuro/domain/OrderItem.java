@@ -4,7 +4,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -16,12 +19,21 @@ public class OrderItem implements Serializable {
     @GeneratedValue
     private Long id;
     
-    @ManyToOne(targetEntity = Order.class)
-    private Long pizzaId;
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false, updatable = false, name = "pizza_id")
+    private Pizza pizza;
     
+    @Min(1)
+    @NotNull
     private int quantity;
 
     public OrderItem() {
+    }
+
+    public OrderItem(Pizza pizza, int quantity) {
+        this.pizza = pizza;
+        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -32,12 +44,12 @@ public class OrderItem implements Serializable {
         this.id = id;
     }
 
-    public Long getPizzaId() {
-        return pizzaId;
+    public Pizza getPizza() {
+        return pizza;
     }
 
-    public void setPizzaId(Long pizzaId) {
-        this.pizzaId = pizzaId;
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
     }
 
     public int getQuantity() {
@@ -50,6 +62,6 @@ public class OrderItem implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderItem{" + "id=" + id + ", pizzaId=" + pizzaId + ", quantity=" + quantity + '}';
+        return "OrderItem{" + "id=" + id + ", pizza=" + pizza + ", quantity=" + quantity + '}';
     }
 }

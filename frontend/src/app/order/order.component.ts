@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 import { OrderService } from './order.service';
+import { AuthenticationService } from '../authentication/authentication.service';
+
+import { RegisterComponent } from '../authentication/register/register.component';
 
 import { OrderItem } from './order-item.model';
 import { CartItem } from '../shopping-cart/cart-item.model';
 import { Customer } from '../customer/customer.model';
+import { User } from '../authentication/user.model';
 import { Order } from './order.model';
 
 @Component({
@@ -19,33 +23,59 @@ export class OrderComponent implements OnInit {
   orders: CartItem[];
   customer: Customer;
   register: boolean = false;
-  // TODO check password equality, strength and encrypt it for transmission
-  pw1: string;
-  pw2: string;
+  
+  @ViewChild(RegisterComponent)
+  registerComponent: RegisterComponent;
 
   tabs : any = [
     {},
     {disabled: true}
   ]
 
-  constructor(private cartService: ShoppingCartService, private router: Router, private orderService: OrderService) {
+  constructor(private cartService: ShoppingCartService, private router: Router, private orderService: OrderService, private authService: AuthenticationService) {
     cartService.orders.subscribe(neworders => {
       this.orders = neworders;
     });
 
   }
-
+  /*
+  if register -> register then 
+  create customer then
+  create order
+  */
   public orderNow() {
-    let o = new Order();
-    o.customer = this.customer;
-    
-    this.orders.forEach(e => {
-      o.items.push(new OrderItem(e.pizza.id, e.quantity));
-    });
-    
-    o.register = this.register;
-    console.log(o);
-    this.orderService.order(o);
+    if(this.register) {
+      console.log("register == true");
+      let u = new User();
+      u.mail = this.registerComponent.mail;
+      // TODO pw
+      u.password = this.registerComponent.pw1;
+      this.authService.register(u).then((user) => {
+        let o = new Order();
+        o.customer = this.customer;
+        o.customer.user = user;
+        console.log(user);
+        this.orders.forEach(e => {
+          o.items.push(new OrderItem(e.pizza.id, e.quantity));
+        });
+      
+        console.log(o);
+        this.orderService.order(o);
+      }).catch(e => {
+        console.log(e);
+        this.registerComponent.msgexists = "E-Mail already registerd!";
+      });
+    } else {
+      let o = new Order();
+      o.customer = this.customer;
+      
+      this.orders.forEach(e => {
+        o.items.push(new OrderItem(e.pizza.id, e.quantity));
+      });
+      
+      console.log(o);
+      this.orderService.order(o);
+    }
   }
 
   public get total() {
