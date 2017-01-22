@@ -29,12 +29,8 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
     
-    @Autowired
-    private Converter<OrderDTO, Order> orderDTOConverter;
-
     @Transactional
-    public Order createOrder(OrderDTO orderDTO) {
-        Order order = orderDTOConverter.convert(orderDTO);
+    public Order createOrder(Order order) {
         
         log.debug("order: " + order);
         // When the user is logged in and no different customer data where send,

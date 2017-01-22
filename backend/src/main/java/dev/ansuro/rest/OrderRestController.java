@@ -6,6 +6,7 @@ import dev.ansuro.service.OrderService;
 import java.net.URI;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +27,14 @@ public class OrderRestController {
     @Autowired
     private OrderService orderService;
     
+    @Autowired
+    private Converter<OrderDTO, Order> orderDTOConverter;
+    
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public ResponseEntity<Order> saveOrder(@RequestBody OrderDTO order) {
         log.debug("TEST: {}", order);
         
-        Order createdOrder = orderService.createOrder(order);
+        Order createdOrder = orderService.createOrder(orderDTOConverter.convert(order));
         
         return ResponseEntity.created(URI.create("/api/order/" + createdOrder.getId())).body(createdOrder);
     }
