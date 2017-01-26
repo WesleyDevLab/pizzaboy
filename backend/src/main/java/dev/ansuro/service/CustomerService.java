@@ -31,7 +31,7 @@ public class CustomerService {
         log.debug(customer.toString());
         User u = userRepository.findOneByMail(SecurityUtil.getCurrentUsername())
                 .orElseThrow(() -> new UserNotFoundException());
-        customer.setUser(u);
+        //customer.setUser(u);
         Customer c = customerRepository.saveAndFlush(customer);
         
         return c;

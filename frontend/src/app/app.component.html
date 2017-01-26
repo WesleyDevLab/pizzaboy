@@ -11,7 +11,16 @@
           <li role="presentation"><a routerLink="/pizza">pizza</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li role="presentation"><a (click)="c.showLogin()">Login</a></li>
+          <li role="presentation" *ngIf="username.length == 0"><a (click)="c.showLogin()">Login</a></li>
+          <span dropdown *ngIf="username.length > 0">
+            <a dropdownToggle href id="menu">{{username}} <span class="caret"></span></a>
+            <ul class="dropdown-menu" dropdownMenu aria-labelledby="menu">
+              <li role="menuitem"><a class="dropdown-item" href="#">orders</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">customer data</a></li>
+              <li class="divider dropdown-divider"></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="logout()">logout</a></li>
+            </ul>
+          </span>
         </ul>
       </nav>
     </div>

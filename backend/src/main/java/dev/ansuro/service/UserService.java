@@ -1,12 +1,13 @@
 package dev.ansuro.service;
 
-import dev.ansuro.domain.Customer;
 import dev.ansuro.domain.User;
 import dev.ansuro.repository.AuthorityRepository;
 import dev.ansuro.repository.CustomerRepository;
 import dev.ansuro.repository.UserRepository;
+import dev.ansuro.security.SecurityUtil;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,20 +32,28 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
+    @Autowired
+    private UserDetailsService userDetailsService;
+    
     @Transactional
     public User registerUser(User user) {
         userRepository.findOneByMail(user.getMail()).ifPresent(x -> {
             throw new EmailAlreadyRegisterdException();
         });
-
-//        if(user.getCustomer() != null) {
-//            Customer c = customerRepository.saveAndFlush(user.getCustomer());
-//            user.addCustomer(c);
-//        }
         
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthorities(Arrays.asList(authorityRepository.findByName("USER")));
+        User u = userRepository.saveAndFlush(user);
         
-        return userRepository.saveAndFlush(user);
+//        // authenticate user
+//        UserDetails ud = userDetailsService.loadUserByUsername(u.getMail());
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(ud, ud.getPassword(), ud.getAuthorities());
+//        SecurityContextHolder.getContext().setAuthentication(token);
+        
+        return u;
+    }
+    
+    public User findCurrentUser() {
+        return userRepository.findOneByMail(SecurityUtil.getCurrentUsername()).get();
     }
 }

@@ -18,6 +18,7 @@
             <input type="password" class="form-control" required placeholder="password" id="pw" name="pw" [(ngModel)]="pw" />
           </div>
           <button type="submit" [disabled]="!f.form.valid">submit</button>
+          <label *ngIf="lerror">Login failed</label>
         </form>
       </div>
     </div>

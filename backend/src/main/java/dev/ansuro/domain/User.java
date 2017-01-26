@@ -1,11 +1,9 @@
 package dev.ansuro.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,15 +26,14 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
     
-//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private Customer customer;
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(nullable = true, name = "customer_id")
+    private Customer customer;
     
     @Email
     @Column(unique = true)
     private String mail;
     
-    //@JsonIgnore
     private String password;
     
     @ManyToMany
@@ -44,6 +41,9 @@ public class User implements Serializable {
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -53,18 +53,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//    
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }
-
-//    public void addCustomer(Customer customer) {
-//        customer.setUser(this);
-//        this.customer = customer;
-//    }
+    public Customer getCustomer() {
+        return customer;
+    }
+    
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public String getMail() {
         return mail;
@@ -74,10 +69,12 @@ public class User implements Serializable {
         this.mail = mail;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty(value = "password")
     public void setPassword(String password) {
         this.password = password;
     }
@@ -92,6 +89,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", mail=" + mail + ", password=" + password + ", authorities=" + authorities + '}';
+        return "User{" + "id=" + id + ", customer=" + customer + ", mail=" + mail + ", password=" + password + ", authorities=" + authorities + '}';
     }
 }

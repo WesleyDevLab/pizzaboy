@@ -16,6 +16,7 @@ import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
 
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ModalModule } from 'ng2-bootstrap/modal';
+import { DropdownModule } from 'ng2-bootstrap/dropdown';
 
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
     HttpModule,
     JsonpModule,
     TabsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DropdownModule.forRoot()
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService],
   bootstrap: [AppComponent]

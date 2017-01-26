@@ -35,4 +35,9 @@ public class OrderItemDTO {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "OrderItemDTO{" + "ordernumber=" + ordernumber + ", quantity=" + quantity + '}';
+    }
 }

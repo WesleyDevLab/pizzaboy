@@ -11,15 +11,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author Andy
  */
 @Configuration
-public class WebConfig { /*extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**");*//*
-                .allowCredentials(true)
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .exposedHeaders("Access-Control-Allow-Origin");*/
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/api/**");
+//                .allowCredentials(true)
+//                .allowedOrigins("*")
+//                .allowedMethods("*")
+//                .exposedHeaders("Access-Control-Allow-Origin");*/
     //}
 
     @Bean

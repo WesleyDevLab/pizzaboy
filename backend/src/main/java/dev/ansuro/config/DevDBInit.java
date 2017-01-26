@@ -3,14 +3,17 @@ package dev.ansuro.config;
 import dev.ansuro.domain.Authority;
 import dev.ansuro.domain.Ingredient;
 import dev.ansuro.domain.Pizza;
+import dev.ansuro.domain.User;
 import dev.ansuro.repository.AuthorityRepository;
 import dev.ansuro.repository.IngredientRepository;
 import dev.ansuro.repository.PizzaRepository;
+import dev.ansuro.repository.UserRepository;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,6 +33,12 @@ public class DevDBInit {
     
     @Autowired
     private AuthorityRepository authorityRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
@@ -78,5 +87,12 @@ public class DevDBInit {
             authorityRepository.save(authority);
         }
         
+        if(userRepository.count() == 0) {
+            User user = new User();
+            user.setMail("admin@pizzaboy.de");
+            user.setPassword(passwordEncoder.encode("admin"));
+            user.setAuthorities(Arrays.asList(authorityRepository.findByName("USER"), authorityRepository.findByName("ADMIN")));
+            userRepository.save(user);
+        }
     }
 }

@@ -51,12 +51,15 @@ export class OrderComponent implements OnInit {
       // TODO pw
       u.password = this.registerComponent.pw1;
       this.authService.register(u).then((user) => {
+        this.authService.login(user.mail, user.password).then((user) => {
+
+        });
         let o = new Order();
         o.customer = this.customer;
         o.customer.user = user;
         console.log(user);
         this.orders.forEach(e => {
-          o.items.push(new OrderItem(e.pizza.id, e.quantity));
+          o.items.push(new OrderItem(e.pizza.ordernumber, e.quantity));
         });
       
         console.log(o);
@@ -70,7 +73,7 @@ export class OrderComponent implements OnInit {
       o.customer = this.customer;
       
       this.orders.forEach(e => {
-        o.items.push(new OrderItem(e.pizza.id, e.quantity));
+        o.items.push(new OrderItem(e.pizza.ordernumber, e.quantity));
       });
       
       console.log(o);

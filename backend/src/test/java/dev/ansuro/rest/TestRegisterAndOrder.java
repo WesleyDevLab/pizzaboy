@@ -1,8 +1,6 @@
 package dev.ansuro.rest;
 
 import dev.ansuro.domain.Customer;
-import dev.ansuro.domain.Order;
-import dev.ansuro.domain.OrderItem;
 import dev.ansuro.domain.User;
 import dev.ansuro.repository.CustomerRepository;
 import dev.ansuro.repository.OrderRepository;
@@ -14,7 +12,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Optional;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -82,7 +79,7 @@ public class TestRegisterAndOrder {
     
     private MockMvc mockMvc;
     
-    private User user1;
+    private String user1;
     private Customer customer;
     private OrderDTO order;
     
@@ -97,10 +94,8 @@ public class TestRegisterAndOrder {
         customerRepository.deleteAll();
         userRepository.deleteAll();
         
-        user1 = new User();
-        user1.setMail("a@b.de");
-        user1.setPassword("1234");
-        
+        user1 = "{\"mail\": \"a@b.de\", \"password\": \"1234\"}";
+
         customer = new Customer();
         customer.setFirstname("firstname");
         customer.setLastname("lastname");
@@ -121,7 +116,7 @@ public class TestRegisterAndOrder {
     public void testRegisterUser() throws Exception {
         
         MvcResult result = mockMvc.perform(post("/api/user")
-                .content(json(user1))
+                .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("mail", is("a@b.de")))
@@ -130,7 +125,7 @@ public class TestRegisterAndOrder {
         String contentAsString = result.getResponse().getContentAsString();
         System.out.println(contentAsString);
 
-        Optional<User> findOneByMail = userRepository.findOneByMail(user1.getMail());
+        Optional<User> findOneByMail = userRepository.findOneByMail("a@b.de");
         assertTrue(findOneByMail.isPresent());
     }
     
@@ -139,13 +134,14 @@ public class TestRegisterAndOrder {
     */
     @Test
     public void testSameMail() throws Exception {
+
         mockMvc.perform(post("/api/user")
-                .content(json(user1))
+                .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(post("/api/user")
-                .content(json(user1))
+                .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isConflict());
                 // why is there no response but in curl?
@@ -182,9 +178,9 @@ public class TestRegisterAndOrder {
     @Test
     @WithMockUser(username = "a@b.de", roles = "USER")
     public void testRegisterdOrder() throws Exception {
-        //user1.setCustomer(customer);
+        order.setCustomer(customer);
         mockMvc.perform(post("/api/user")
-                .content(json(user1))
+                .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isCreated());
         
@@ -206,7 +202,7 @@ public class TestRegisterAndOrder {
     @WithMockUser(username = "a@b.de", roles = "USER")
     public void testOrderWithoutCustomer() throws Exception {
         mockMvc.perform(post("/api/user")
-                .content(json(user1))
+                .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isCreated());
         

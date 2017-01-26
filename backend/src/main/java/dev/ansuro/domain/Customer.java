@@ -1,16 +1,13 @@
 package dev.ansuro.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -45,11 +42,7 @@ public class Customer implements Serializable {
     @NotNull
     private String phone;
     
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     public Customer() {
@@ -119,14 +112,6 @@ public class Customer implements Serializable {
         this.phone = phone;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Order> getOrders() {
         return orders;
     }
@@ -137,6 +122,57 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + ", user=" + user + ", orders=" + orders + '}';
+        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + ", orders=" + orders + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.firstname);
+        hash = 79 * hash + Objects.hashCode(this.lastname);
+        hash = 79 * hash + Objects.hashCode(this.street);
+        hash = 79 * hash + Objects.hashCode(this.housenumber);
+        hash = 79 * hash + this.zip;
+        hash = 79 * hash + Objects.hashCode(this.city);
+        hash = 79 * hash + Objects.hashCode(this.phone);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Customer other = (Customer) obj;
+        if (this.zip != other.zip) {
+            return false;
+        }
+        if (!Objects.equals(this.firstname, other.firstname)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastname, other.lastname)) {
+            return false;
+        }
+        if (!Objects.equals(this.street, other.street)) {
+            return false;
+        }
+        if (!Objects.equals(this.housenumber, other.housenumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (!Objects.equals(this.phone, other.phone)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

@@ -3,6 +3,7 @@ package dev.ansuro.security;
 import dev.ansuro.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,8 +24,12 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private Logger log;
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.debug("logging in: " + username);
         return userRepository.findOneByMail(username).map(u -> {
             List<GrantedAuthority> l = u.getAuthorities().stream()
                     .map(a -> new SimpleGrantedAuthority(a.getName()))

@@ -12,12 +12,17 @@ import { AuthenticationService } from '../authentication.service';
 export class LoginComponent implements OnInit {
   email: string;
   pw: string;
+  lerror: boolean;
 
   constructor(private authService: AuthenticationService) { }
 
   public login() {
     console.log(this.email + " " + this.pw);
-    this.authService.login(this.email, this.pw);
+    this.authService.login(this.email, this.pw).then(u => {
+      console.log(u);
+      this.pw = "";
+      this.hideLogin();
+    }).catch(() => this.lerror = true);
   }
 
   ngOnInit() {

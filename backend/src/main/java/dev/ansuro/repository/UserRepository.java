@@ -15,4 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneByMail(String email);
     
     Optional<User> findOneById(Long id);
+    
+    @Query("select u from _User u where u.mail = ?#{principal.username}")
+    Optional<User> findCurrentUser();
 }
