@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthenticationService } from './authentication/authentication.service';
 
@@ -9,22 +9,36 @@ import { Subscription }   from 'rxjs/Subscription';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   username: string = "";
   private subscription: Subscription;
   
   constructor(private authService: AuthenticationService) {
-    authService.loggedIn$.subscribe(username => {
-      console.log(username);
-      this.username = username;
-    });
+    console.log("ctr");
   }
 
   public logout() {
     this.authService.logout();
   }
 
+  ngOnInit() {
+    console.log("init");
+    this.authService.loggedIn$.subscribe(username => {
+      console.log(username);
+      this.username = username;
+    });
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  loggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  getUsername() {
+    let t = localStorage.getItem('id_token');
+    console.log(this.authService.jwtHelper.decodeToken(t));
   }
 }

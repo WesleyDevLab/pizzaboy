@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap';
 
 import { AuthenticationService } from '../authentication.service';
@@ -9,27 +9,22 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./login.component.css'],
   exportAs: 'child'
 })
-export class LoginComponent implements OnInit {
-  email: string;
-  pw: string;
-  lerror: boolean;
+export class LoginComponent {
+  public email: string;
+  public pw: string;
+  public lerror: boolean;
+
+  @ViewChild('loginModal')
+  private loginModal: ModalDirective;
 
   constructor(private authService: AuthenticationService) { }
 
   public login() {
     console.log(this.email + " " + this.pw);
-    this.authService.login(this.email, this.pw).then(u => {
-      console.log(u);
-      this.pw = "";
+    this.authService.login(this.email, this.pw).then(() => {
       this.hideLogin();
     }).catch(() => this.lerror = true);
   }
-
-  ngOnInit() {
-  }
-
-  @ViewChild('loginModal')
-  public loginModal: ModalDirective;
 
   public showLogin() {
     this.loginModal.show();
@@ -37,5 +32,8 @@ export class LoginComponent implements OnInit {
 
   public hideLogin() {
     this.loginModal.hide();
+    this.email = "";
+    this.pw = "";
+    this.lerror = false;
   }
 }

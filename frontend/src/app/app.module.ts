@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { RouterModule, Routes } from "@angular/router";
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
 import { PizzaDetailComponent } from './pizza/pizza-detail.component';
@@ -30,6 +31,12 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/pizza', pathMatch: 'full' }
 ];
 
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+    noJwtError: true
+  }), http, options);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +58,12 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     DropdownModule.forRoot()
   ],
-  providers: [PizzaService, ShoppingCartService, AuthenticationService],
+  providers: [PizzaService, ShoppingCartService, AuthenticationService,
+  {
+    provide: AuthHttp,
+    useFactory: authHttpServiceFactory,
+    deps: [Http, RequestOptions]
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

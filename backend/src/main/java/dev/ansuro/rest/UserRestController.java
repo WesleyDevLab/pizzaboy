@@ -3,6 +3,7 @@ package dev.ansuro.rest;
 import dev.ansuro.domain.User;
 import dev.ansuro.service.UserService;
 import java.net.URI;
+import java.security.Principal;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,10 @@ public class UserRestController {
         return ResponseEntity.created(URI.create("/api/user/" + createdUser.getId())).body(createdUser);
     }
     
-    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser() {
-        User u = userService.findCurrentUser();
-        return ResponseEntity.ok(u);
+    public ResponseEntity<Principal> getUser(Principal principal) {
+        //User u = userService.findCurrentUser();
+        return ResponseEntity.ok(principal);
     }
 }

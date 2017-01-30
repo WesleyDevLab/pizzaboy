@@ -11,8 +11,8 @@
           <li role="presentation"><a routerLink="/pizza">pizza</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li role="presentation" *ngIf="username.length == 0"><a (click)="c.showLogin()">Login</a></li>
-          <span dropdown *ngIf="username.length > 0">
+          <li role="presentation" *ngIf="!loggedIn()"><a (click)="c.showLogin()">Login</a></li>
+          <span dropdown *ngIf="loggedIn()">
             <a dropdownToggle href id="menu">{{username}} <span class="caret"></span></a>
             <ul class="dropdown-menu" dropdownMenu aria-labelledby="menu">
               <li role="menuitem"><a class="dropdown-item" href="#">orders</a></li>
@@ -24,7 +24,7 @@
         </ul>
       </nav>
     </div>
-  </div>
+  </div><button (click)="getUsername()">getUsername</button>
   <div class="row">
     <router-outlet></router-outlet>
   </div>
