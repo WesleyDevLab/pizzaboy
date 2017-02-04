@@ -23,12 +23,12 @@ public class SecurityUtil {
         return false;
     }
 
-    public static User getCurrentUser() {
+    public static AuthenticatedUser getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         if (authentication != null) {
-            if (authentication.getPrincipal() instanceof User) {
-                return (User) authentication.getPrincipal();
+            if (authentication instanceof AuthenticatedUser) {
+                return (AuthenticatedUser) authentication;
             }
         }
 
@@ -36,7 +36,7 @@ public class SecurityUtil {
     }
     
     public static String getCurrentUsername() {
-        return SecurityUtil.getCurrentUser().getUsername();
+        return SecurityUtil.getCurrentUser().getName();
     }
 
 }

@@ -1,8 +1,11 @@
 package dev.ansuro.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 /**
  *
@@ -10,15 +13,21 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public class AuthenticatedUser implements Authentication {
     private final String name;
+    private final List<SimpleGrantedAuthority> authorities;
     private boolean authenticated;
     
-    public AuthenticatedUser(String name) {
+    public AuthenticatedUser(String name, boolean admin) {
         this.name = name;
+        this.authenticated = true;
+        this.authorities = new ArrayList<>();
+        this.authorities.add(new SimpleGrantedAuthority("USER"));
+        if(admin)
+            this.authorities.add(new SimpleGrantedAuthority("ADMIN"));
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override
@@ -50,5 +59,9 @@ public class AuthenticatedUser implements Authentication {
     public String getName() {
         return name;
     }
-    
+
+    @Override
+    public String toString() {
+        return "AuthenticatedUser{" + "name=" + name + ", authorities=" + authorities + ", authenticated=" + authenticated + '}';
+    }
 }

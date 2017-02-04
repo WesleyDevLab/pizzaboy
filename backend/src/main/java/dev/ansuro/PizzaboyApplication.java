@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PizzaboyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PizzaboyApplication.class, args);
+            SpringApplication springApplication = new SpringApplication(PizzaboyApplication.class);
+            // set dev-profile
+            springApplication.setAdditionalProfiles("dev");
+            springApplication.run(args);
 	}
 }
