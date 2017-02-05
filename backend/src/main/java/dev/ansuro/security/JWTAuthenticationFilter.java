@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -22,6 +23,12 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     public JWTAuthenticationFilter() {
         super("/api/**");
+    }
+
+    // authentication only required if token present else stay anonymous
+    @Override
+    protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        return request.getHeader(Constants.JWT_HEADER) != null;
     }
 
     @Override

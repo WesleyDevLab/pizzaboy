@@ -89,6 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         // http.cors() => use CorsFilter (see below)
         http.cors()
+//            .and() necessary if not extending WebSecurityConfigurerAdapter
+//                .anonymous()
             .and() // check csrf later..
                 .csrf().disable()
                 .authorizeRequests()
