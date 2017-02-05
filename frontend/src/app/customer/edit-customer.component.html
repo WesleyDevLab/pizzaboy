@@ -1,0 +1,4 @@
+<form (ngSubmit)="save()" #f="ngForm">
+  <app-customer></app-customer>
+  <button type="submit" [disabled]="!f.form.valid">save</button>
+</form>

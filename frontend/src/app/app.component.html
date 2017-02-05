@@ -15,8 +15,8 @@
           <span dropdown *ngIf="loggedIn()">
             <a dropdownToggle href id="menu">{{username}} <span class="caret"></span></a>
             <ul class="dropdown-menu" dropdownMenu aria-labelledby="menu">
-              <li role="menuitem"><a class="dropdown-item" href="#">orders</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">customer data</a></li>
+              <li role="menuitem"><a class="dropdown-item" routerLink="/user/orders">orders</a></li>
+              <li role="menuitem"><a class="dropdown-item" routerLink="/user/customer">customer data</a></li>
               <li class="divider dropdown-divider"></li>
               <li role="menuitem"><a class="dropdown-item" (click)="logout()">logout</a></li>
             </ul>
@@ -24,7 +24,7 @@
         </ul>
       </nav>
     </div>
-  </div><button (click)="getUsername()">getUsername</button>
+  </div>
   <div class="row">
     <router-outlet></router-outlet>
   </div>

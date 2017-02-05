@@ -1,3 +1,29 @@
-<p>
-  customer works!
-</p>
+
+         <div class="form-group">
+           <label for="firstname">firstname:</label>
+           <input type="text" class="form-control" id="firstname" required [(ngModel)]="customer.firstname" name="firstname" />
+         </div>
+         <div class="form-group">
+           <label for="lastname">lastname:</label>
+           <input type="text" class="form-control" id="lastname" required [(ngModel)]="customer.lastname" name="lastname" />
+         </div>
+         <div class="form-group">
+           <label for="street">street:</label>
+           <input type="text" class="form-control" id="street" required [(ngModel)]="customer.street" name="street" />
+         </div>
+         <div class="form-group">
+           <label for="housenumber">number:</label>
+           <input type="number" class="form-control" id="housenumber" required [(ngModel)]="customer.housenumber" name="housenumber" />
+         </div>
+         <div class="form-group">
+           <label for="zip">zip:</label>
+           <input type="text" class="form-control" id="zip" required [(ngModel)]="customer.zip" name="zip" />
+         </div>
+         <div class="form-group">
+           <label for="city">city:</label>
+           <input type="text" class="form-control" id="city" required [(ngModel)]="customer.city" name="city" />
+         </div>
+         <div class="form-group">
+           <label for="phone">phone:</label>
+           <input type="tel" class="form-control" id="phone" required [(ngModel)]="customer.phone" name="phone" />
+         </div>

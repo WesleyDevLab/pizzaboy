@@ -6,6 +6,7 @@ import { OrderService } from './order.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 import { RegisterComponent } from '../authentication/register/register.component';
+import { CustomerComponent } from '../customer/customer.component';
 
 import { OrderItem } from './order-item.model';
 import { CartItem } from '../shopping-cart/cart-item.model';
@@ -21,11 +22,13 @@ import { Order } from './order.model';
 })
 export class OrderComponent implements OnInit {
   orders: CartItem[];
-  customer: Customer;
   register: boolean = false;
   
   @ViewChild(RegisterComponent)
-  registerComponent: RegisterComponent;
+  private registerComponent: RegisterComponent;
+
+  @ViewChild(CustomerComponent)
+  private customerComponent: CustomerComponent;
 
   tabs : any = [
     {},
@@ -55,7 +58,7 @@ export class OrderComponent implements OnInit {
 
         });
         let o = new Order();
-        o.customer = this.customer;
+        o.customer = this.customerComponent.customer;
         o.customer.user = user;
         console.log(user);
         this.orders.forEach(e => {
@@ -70,7 +73,7 @@ export class OrderComponent implements OnInit {
       });
     } else {
       let o = new Order();
-      o.customer = this.customer;
+      o.customer = this.customerComponent.customer;
       
       this.orders.forEach(e => {
         o.items.push(new OrderItem(e.pizza.ordernumber, e.quantity));
@@ -99,8 +102,11 @@ export class OrderComponent implements OnInit {
       this.router.navigate(["/"]);
     }
 
-    this.customer = new Customer();
     this.tabs[0].active = true;
+  }
+
+  public loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
 }

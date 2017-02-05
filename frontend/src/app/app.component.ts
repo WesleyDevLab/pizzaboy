@@ -14,7 +14,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   
   constructor(private authService: AuthenticationService) {
-    console.log("ctr");
   }
 
   public logout() {
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("init");
     this.authService.loggedIn$.subscribe(username => {
       console.log(username);
       this.username = username;
@@ -33,12 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  loggedIn(): boolean {
+  public loggedIn(): boolean {
     return this.authService.isLoggedIn();
-  }
-
-  getUsername() {
-    let t = localStorage.getItem('id_token');
-    console.log(this.authService.jwtHelper.decodeToken(t));
   }
 }

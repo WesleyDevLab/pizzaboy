@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions} from '@angular/http';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AuthHttp, tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
@@ -14,10 +15,9 @@ export class AuthenticationService {
   private loggedIn = new BehaviorSubject<string>("");
   public loggedIn$ = this.loggedIn.asObservable();
   public username: string;
-  jwtHelper: JwtHelper = new JwtHelper();
+  private jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private ahttp: AuthHttp) {
-    console.log("ctr");
+  constructor(private ahttp: AuthHttp, private router: Router) {
     if(localStorage.getItem("id_token") != null) {
       this.setUsername();
     }
@@ -27,10 +27,6 @@ export class AuthenticationService {
     console.log(JSON.stringify({username, password}));
     return this.ahttp.post("http://localhost:8080/api/login", JSON.stringify({username, password}), this.jsonoptions)
       .toPromise().then((u) => {
-        console.log(u);
-        u.headers.forEach(element => {
-          console.log(element);
-        });
         let t = u.headers.get("authorization");
         t = t.replace("Bearer ", "");
         localStorage.setItem('id_token', t);
@@ -40,12 +36,14 @@ export class AuthenticationService {
 
   private setUsername() {
     let t = localStorage.getItem("id_token");
+    console.log(this.jwtHelper.decodeToken(t));
     this.loggedIn.next(this.jwtHelper.decodeToken(t).sub);
   }
 
   public logout() {
     localStorage.removeItem('id_token');
     this.loggedIn.next("");
+    this.router.navigate(['']);
   }
 
   public register(reguser: User) : Promise<User> {
@@ -54,6 +52,13 @@ export class AuthenticationService {
 
   public isLoggedIn(): boolean {
     return tokenNotExpired();
+  }
+
+  public isAdmin(): boolean {
+    if(!this.isLoggedIn()) return false;
+
+    let t = localStorage.getItem("id_token");
+    return this.jwtHelper.decodeToken(t).admin;
   }
 
   private registerError(error: any) : Promise<any> {
