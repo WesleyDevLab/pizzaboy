@@ -34,7 +34,7 @@ public class CustomerRestController {
         
         Customer c = customerService.createCustomer(customer);
         
-        return ResponseEntity.created(URI.create("/api/user/" + c.getId())).body(c);
+        return ResponseEntity.created(URI.create("/api/customer/" + c.getId())).body(c);
     }
     
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")

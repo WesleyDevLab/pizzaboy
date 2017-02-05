@@ -6,6 +6,7 @@ import dev.ansuro.repository.CustomerRepository;
 import dev.ansuro.repository.UserRepository;
 import dev.ansuro.security.SecurityUtil;
 import java.util.Optional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,9 @@ public class CustomerService {
         log.debug(customer.toString());
         User u = userRepository.findOneByMail(SecurityUtil.getCurrentUsername())
                 .orElseThrow(() -> new UserNotFoundException());
-        //customer.setUser(u);
         Customer c = customerRepository.saveAndFlush(customer);
+        u.setCustomer(c);
+        userRepository.saveAndFlush(u);
         
         return c;
     }
@@ -45,7 +47,8 @@ public class CustomerService {
         Customer customer = u.getCustomer();
         if(customer == null)
             throw new CustomerNotFoundException();
-        
+
+        log.info(customer.toString());
         return customer;
     }
 }
