@@ -59,6 +59,10 @@ public class OrderItem implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    
+    public double getPrice() {
+        return this.pizza.getPrice() * this.quantity;
+    }
 
     @Override
     public String toString() {

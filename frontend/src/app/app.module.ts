@@ -20,6 +20,7 @@ import { PizzaService } from './pizza/pizza.service';
 import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
 import { AuthenticationService } from './authentication/authentication.service';
 import { CustomerService } from './customer/customer.service';
+import { OrderService } from './order/order.service';
 
 import { UserGuard } from './authentication/user-guard.service';
 import { AdminGuard } from './authentication/admin-guard.service';
@@ -75,7 +76,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]
-  }, UserGuard, AdminGuard],
+  }, UserGuard, AdminGuard, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

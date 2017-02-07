@@ -23,4 +23,15 @@ export class OrderService {
         Promise.reject(r);
       });
   }
+
+  public getOrders() : Promise<Order[]> {
+    return this.ahttp.get('http://localhost:8080/api/order').toPromise()
+      .then(r => {
+        console.log(r);
+        console.log(r.json());
+        return r.json();
+      }).catch(r => {
+        console.log("error: " + r);
+      });
+  }
 }
