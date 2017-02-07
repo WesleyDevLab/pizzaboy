@@ -1,12 +1,12 @@
 package dev.ansuro.service;
 
+import dev.ansuro.converter.CustomerConverter;
 import dev.ansuro.domain.Customer;
 import dev.ansuro.domain.User;
 import dev.ansuro.repository.CustomerRepository;
 import dev.ansuro.repository.UserRepository;
+import dev.ansuro.rest.dto.CustomerDTO;
 import dev.ansuro.security.SecurityUtil;
-import java.util.Optional;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,9 @@ public class CustomerService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private CustomerConverter customerConverter;
 
     @Transactional
     public Customer createCustomer(Customer customer) {
@@ -40,7 +43,7 @@ public class CustomerService {
         return c;
     }
 
-    public Customer getCurrent() {
+    public CustomerDTO getCurrent() {
         User u = userRepository.findOneByMail(SecurityUtil.getCurrentUsername())
                 .orElseThrow(() -> new UserNotFoundException());
         
@@ -49,6 +52,6 @@ public class CustomerService {
             throw new CustomerNotFoundException();
 
         log.info(customer.toString());
-        return customer;
+        return customerConverter.convert(customer);
     }
 }

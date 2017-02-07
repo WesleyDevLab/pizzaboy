@@ -36,6 +36,6 @@ public class OrderRestController {
         
         Order createdOrder = orderService.createOrder(orderDTOConverter.convert(order));
         
-        return ResponseEntity.created(URI.create("/api/order/" + createdOrder.getId())).body(createdOrder);
+        return ResponseEntity.created(URI.create("/api/order/" + createdOrder.getId())).build();
     }
 }

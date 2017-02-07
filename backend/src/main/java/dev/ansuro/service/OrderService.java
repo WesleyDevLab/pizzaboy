@@ -31,6 +31,9 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private CustomerRepository customerRepository;
+    
     @Transactional
     public Order createOrder(Order order) {
         
@@ -39,19 +42,26 @@ public class OrderService {
             throw new CustomerNotFoundException();
         }
 
+        Customer c;
         if(SecurityUtil.isAuthenticated()) {
+            log.debug("authenticated");
             // check if saved customer equals sent data and find it in database
-            User currentUser = userRepository.findCurrentUser().orElseThrow(() -> new UserNotFoundException());
+            User currentUser = userRepository.findOneByMail(SecurityUtil.getCurrentUsername())
+                .orElseThrow(() -> new UserNotFoundException());
+            order.setUser(currentUser);
             
-            Customer customer = currentUser.getCustomer();
+            c = currentUser.getCustomer();
             
-            if(customer != null && !customer.equals(order.getCustomer())) {
+            if(c == null || !c.equals(order.getCustomer())) {
                 log.debug("!equals");
-                log.debug(customer.toString());
-                currentUser.setCustomer(order.getCustomer());
+                c = customerRepository.saveAndFlush(order.getCustomer());
+                currentUser.setCustomer(c);
                 userRepository.saveAndFlush(currentUser);
             }
+        } else {
+            c = customerRepository.saveAndFlush(order.getCustomer());
         }
+        order.setCustomer(c);
         return orderRepository.saveAndFlush(order);
     }
 }

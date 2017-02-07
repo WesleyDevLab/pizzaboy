@@ -3,8 +3,6 @@ package dev.ansuro.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -15,8 +13,8 @@ public class SecurityUtil {
     public static boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                return true;
+            if (authentication instanceof AuthenticatedUser) {
+                return authentication.isAuthenticated();
             }
         }
 

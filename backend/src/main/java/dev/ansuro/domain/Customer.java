@@ -42,7 +42,7 @@ public class Customer implements Serializable {
     @NotNull
     private String phone;
     
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", orphanRemoval = true)
     private List<Order> orders;
 
     public Customer() {
@@ -122,7 +122,7 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + ", orders=" + orders + '}';
+        return "Customer{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", housenumber=" + housenumber + ", zip=" + zip + ", city=" + city + ", phone=" + phone + '}';
     }
 
     @Override

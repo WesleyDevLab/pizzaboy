@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 import { OrderService } from './order.service';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { CustomerService } from '../customer/customer.service';
 
 import { RegisterComponent } from '../authentication/register/register.component';
 import { CustomerComponent } from '../customer/customer.component';
@@ -23,6 +24,8 @@ import { Order } from './order.model';
 export class OrderComponent implements OnInit {
   orders: CartItem[];
   register: boolean = false;
+  done: boolean = false;
+  error: boolean = false;
   
   @ViewChild(RegisterComponent)
   private registerComponent: RegisterComponent;
@@ -35,7 +38,7 @@ export class OrderComponent implements OnInit {
     {disabled: true}
   ]
 
-  constructor(private cartService: ShoppingCartService, private router: Router, private orderService: OrderService, private authService: AuthenticationService) {
+  constructor(private cartService: ShoppingCartService, private router: Router, private orderService: OrderService, private authService: AuthenticationService, private customerService: CustomerService) {
     cartService.orders.subscribe(neworders => {
       this.orders = neworders;
     });
@@ -66,7 +69,7 @@ export class OrderComponent implements OnInit {
         });
       
         console.log(o);
-        this.orderService.order(o);
+        this.orderService.order(o).then(() => this.finished()).catch(() => this.onerror());
       }).catch(e => {
         console.log(e);
         this.registerComponent.msgexists = "E-Mail already registerd!";
@@ -80,8 +83,16 @@ export class OrderComponent implements OnInit {
       });
       
       console.log(o);
-      this.orderService.order(o);
+      this.orderService.order(o).then(() => this.finished()).catch(() => this.onerror());
     }
+  }
+
+  private finished() {
+    this.done = true;
+  }
+
+  private onerror() {
+    this.error = true;
   }
 
   public get total() {
@@ -103,6 +114,10 @@ export class OrderComponent implements OnInit {
     }
 
     this.tabs[0].active = true;
+    this.customerService.getCustomer().then(c => {
+      console.log(c);
+      this.customerComponent.customer = c;
+    }).catch(() => console.log(""));
   }
 
   public loggedIn(): boolean {

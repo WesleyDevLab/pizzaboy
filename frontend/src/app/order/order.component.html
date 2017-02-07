@@ -1,6 +1,12 @@
+<alert type="danger" *ngIf="error">
+  <strong>Error</strong> Please try again later
+</alert>
 <!-- TODO later: customize class nav nav-tabs -->
 <div class="col-md-8 col-md-offset-2">
-  <tabset>
+  <alert type="success" *ngIf="done">
+    <strong>Order sent</strong> Thanks for ordering!
+  </alert>
+  <tabset *ngIf="!done">
     <tab [active]="tabs[0].active" (select)="tabs[0].active = true; tabs[1].active = false" heading="your order" class="t">
       <table class="table">
         <tr>
@@ -25,7 +31,7 @@
     <tab [disabled]="tabs[1].disabled" [active]="tabs[1].active" (select)="tabs[1].active = true; tabs[0].active = false" heading="delivery information">
       <form (ngSubmit)="orderNow()" #f="ngForm">
         <app-customer></app-customer>
-         <div class="form-group" *ngIf="expression">
+         <div class="form-group" *ngIf="!loggedIn()">
            <div class="checkbox">
             <label>
               <input type="checkbox" [(ngModel)]="register" name="register" />

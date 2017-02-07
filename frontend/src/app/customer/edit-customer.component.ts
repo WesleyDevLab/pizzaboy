@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerComponent } from './customer.component';
-import { AuthHttp } from 'angular2-jwt';
+import { CustomerService } from './customer.service';
 
 @Component({
   selector: 'app-edit-customer',
@@ -11,13 +11,33 @@ export class EditCustomerComponent implements OnInit {
   
   @ViewChild(CustomerComponent)
   private customerComponent: CustomerComponent;
+
+  saved: boolean = false;
+  error: boolean = false;
+  nocustomer: boolean = false;
   
-  constructor(private ahttp: AuthHttp) { }
+  constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.ahttp.get("http://localhost:8080/api/customer").toPromise().then(c => {
+    this.customerService.getCustomer().then(c => {
       console.log(c);
-    }).catch(c => console.log("no customer data: " + c));
+      this.customerComponent.customer = c;
+    }).catch(c => {
+      console.log("no customer data: " + c);
+      this.nocustomer = true;
+    });
+  }
+
+  public save() {
+    let c = this.customerComponent.customer;
+    this.customerService.saveCustomer(c).then(() => {
+        this.nocustomer = false;
+        this.saved = true;
+      }).catch(() => {
+        this.error = true;
+        this.saved = false;
+        this.nocustomer = false;
+      });
   }
 
 }

@@ -14,10 +14,12 @@ import { CustomerComponent } from './customer/customer.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { OrderListComponent } from './order/order-list.component';
+import { EditCustomerComponent } from './customer/edit-customer.component';
 
 import { PizzaService } from './pizza/pizza.service';
 import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
 import { AuthenticationService } from './authentication/authentication.service';
+import { CustomerService } from './customer/customer.service';
 
 import { UserGuard } from './authentication/user-guard.service';
 import { AdminGuard } from './authentication/admin-guard.service';
@@ -25,7 +27,8 @@ import { AdminGuard } from './authentication/admin-guard.service';
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ModalModule } from 'ng2-bootstrap/modal';
 import { DropdownModule } from 'ng2-bootstrap/dropdown';
-import { EditCustomerComponent } from './customer/edit-customer.component';
+import { AlertModule } from 'ng2-bootstrap/alert';
+
 
 const appRoutes: Routes = [
   { path: 'pizza/:id', component: PizzaDetailComponent },
@@ -38,7 +41,8 @@ const appRoutes: Routes = [
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
-    noJwtError: true
+    noJwtError: true,
+    globalHeaders: [{'Content-Type': 'application/json'}]
   }), http, options);
 }
 
@@ -63,9 +67,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     JsonpModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
-    DropdownModule.forRoot()
+    DropdownModule.forRoot(),
+    AlertModule.forRoot()
   ],
-  providers: [PizzaService, ShoppingCartService, AuthenticationService,
+  providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,

@@ -24,7 +24,7 @@ public class Order implements Serializable {
     private Long id;
     
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private Customer customer;
     
     @OneToOne
@@ -82,6 +82,6 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", customer=" + customer + ", user=" + user + ", items=" + items + ", delivered=" + delivered + '}';
+        return "Order{" + "id=" + id + ", user=" + user + ", items=" + items + ", delivered=" + delivered + '}';
     }
 }

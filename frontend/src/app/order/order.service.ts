@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 
 import { Order } from './order.model';
 
@@ -7,13 +8,19 @@ import { Order } from './order.model';
 export class OrderService {
 
 
-  constructor(private http: Http) { }
+  constructor(private ahttp: AuthHttp) { }
 
-  public order(o: Order) {
+  public order(o: Order): Promise<void> {
     console.log(o);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
 
-    this.http.post('http://localhost:8080/api/order', o, options).subscribe();
+    return this.ahttp.post('http://localhost:8080/api/order', o, options).toPromise()
+      .then(r => {
+        console.log(r);
+      }).catch(r => {
+        console.log(r);
+        Promise.reject(r);
+      });
   }
 }
