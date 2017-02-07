@@ -59,4 +59,9 @@ export class ShoppingCartService {
 
     this._orders.next(Object.assign({}, this.dataStore).items);
   }
+
+  public clean() {
+    this.dataStore.items = [];
+    this._orders.next(Object.assign({}, this.dataStore).items);
+  }
 }

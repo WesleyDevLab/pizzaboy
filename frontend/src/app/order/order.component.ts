@@ -89,6 +89,7 @@ export class OrderComponent implements OnInit {
 
   private finished() {
     this.done = true;
+    this.cartService.clean();
   }
 
   private onerror() {
