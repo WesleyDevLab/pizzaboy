@@ -1,5 +1,6 @@
 package dev.ansuro.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,6 +22,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public MappingJackson2HttpMessageConverter jacksonMessageConverter() {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(new Hibernate5Module());
         mapper.registerModule(new JavaTimeModule());
         messageConverter.setObjectMapper(mapper);

@@ -1,19 +1,17 @@
 <div class="col-md-9">
-  <div class="row">
-    <alert class="warning" *ngIf="noorders">
-      <strong>No Orders</strong>
-    </alert>
-    <table class="table table-striped" *ngIf="!noorders">
-      <tr>
-        <th>Date</th>
-        <th># items</th>
-        <th>price</th>
-      </tr>
-      <tr *ngFor="let o of orders">
-        <td>{{o.created}}</td>
-        <td>{{o.nitems}}</td>
-        <td>{{o.totalPrice | currency: 'EUR'}}</td>
-      </tr>
-    </table>
-  </div>
+  <alert class="warning" *ngIf="noorders">
+    <strong>No Orders</strong>
+  </alert>
+  <table class="table table-striped" *ngIf="!noorders">
+    <tr>
+      <th>Date</th>
+      <th># items</th>
+      <th>price</th>
+    </tr>
+    <tr *ngFor="let o of orders" (click)="showOrder(o)" class="orderlistrow">
+      <td>{{o.created}}</td>
+      <td>{{o.nitems}}</td>
+      <td>{{o.totalPrice | currency: 'EUR'}}</td>
+    </tr>
+  </table>
 </div>

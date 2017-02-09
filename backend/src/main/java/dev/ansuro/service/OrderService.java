@@ -1,6 +1,8 @@
 package dev.ansuro.service;
 
 import dev.ansuro.converter.OrderConverter;
+import dev.ansuro.converter.OrderDTOConverter;
+import dev.ansuro.converter.OrderDetailsDTOConverter;
 import dev.ansuro.domain.Customer;
 import dev.ansuro.domain.Order;
 import dev.ansuro.domain.User;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +43,15 @@ public class OrderService {
     @Autowired
     private OrderConverter orderConverter;
     
+    @Autowired
+    private Converter<OrderDTO, Order> orderDTOConverter;
+    
+    @Autowired
+    private OrderDetailsDTOConverter orderDetailsDTOConverter;
+    
     @Transactional
-    public Order createOrder(Order order) {
+    public Order createOrder(OrderDTO orderDTO) {
+        Order order = orderDTOConverter.convert(orderDTO);
         
         log.debug("order: " + order);
         if(order.getCustomer() == null) {
@@ -74,5 +84,15 @@ public class OrderService {
     public List<OrderDTO> getOrders() {
         List<Order> ordersFromCurrentUser = orderRepository.getOrdersFromCurrentUser();
         return ordersFromCurrentUser.stream().map(o -> orderConverter.convert(o)).collect(Collectors.toList());
+    }
+
+    public OrderDTO getOrderDetails(String id) {
+        Order o = orderRepository.findOneById(Long.valueOf(id)).orElseThrow(() -> new OrderNotFoundException());
+        
+        if(!o.getUser().getMail().equals(SecurityUtil.getCurrentUsername())) {
+            throw new AccessDeniedException("");
+        }
+        OrderDTO odto = orderDetailsDTOConverter.convert(o);
+        return odto;
     }
 }

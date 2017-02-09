@@ -15,6 +15,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { OrderListComponent } from './order/order-list.component';
 import { EditCustomerComponent } from './customer/edit-customer.component';
+import { OrderDetailComponent } from './order/order-detail.component';
 
 import { PizzaService } from './pizza/pizza.service';
 import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
@@ -24,6 +25,8 @@ import { OrderService } from './order/order.service';
 
 import { UserGuard } from './authentication/user-guard.service';
 import { AdminGuard } from './authentication/admin-guard.service';
+
+import { OrderDetailsResolver } from './order/order-details-resolver';
 
 import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ModalModule } from 'ng2-bootstrap/modal';
@@ -36,6 +39,7 @@ const appRoutes: Routes = [
   { path: 'pizza', component: PizzaListComponent },
   { path: 'order', component: OrderComponent },
   { path: 'user/orders', component: OrderListComponent, canActivate: [UserGuard] },
+  { path: 'user/order/:id', component: OrderDetailComponent, canActivate: [UserGuard], resolve: {order: OrderDetailsResolver} },
   { path: 'user/customer', component: EditCustomerComponent, canActivate: [UserGuard] },
   { path: '', redirectTo: '/pizza', pathMatch: 'full' }
 ];
@@ -58,7 +62,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LoginComponent,
     RegisterComponent,
     OrderListComponent,
-    EditCustomerComponent
+    EditCustomerComponent,
+    OrderDetailComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -76,7 +81,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]
-  }, UserGuard, AdminGuard, OrderService],
+  }, UserGuard, AdminGuard, OrderService, OrderDetailsResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

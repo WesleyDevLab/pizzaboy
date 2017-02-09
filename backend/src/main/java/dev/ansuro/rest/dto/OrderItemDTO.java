@@ -7,6 +7,8 @@ package dev.ansuro.rest.dto;
 public class OrderItemDTO {
     private String ordernumber;
     private int quantity;
+    private String name;
+    private double price;
 
     public OrderItemDTO() {
     }
@@ -34,6 +36,22 @@ public class OrderItemDTO {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

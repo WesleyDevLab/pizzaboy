@@ -1,0 +1,64 @@
+<div class="col-md-9">
+  <div class="row">
+    <div class="col-md-9"><h2>Order #{{order.id}} ({{order.created}})</h2></div>
+  </div>
+  <div class="row" *ngFor="let item of order.items">
+    <div class="col-md-9">
+      <table class="table table-striped">
+        <tr>
+          <th>name</th>
+          <th># items</th>
+          <th>price</th>
+        </tr>
+        <tr class="orderlistrow" *ngFor="let o of order.items">
+          <td>{{o.name}}</td>
+          <td>{{o.quantity}}</td>
+          <td>{{o.price | currency: 'EUR'}}</td>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{order.nitems}}</td>
+          <td>{{order.totalPrice | currency:'EUR'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <table class="table">
+        <tr><td colspan="2"><h4>Customer information</h4></td></tr>
+        <tr>
+          <td>firstname:</td>
+          <td>{{order.customer.firstname}}</td>
+        </tr>
+        <tr>
+          <td>lastname:</td>
+          <td>{{order.customer.lastname}}</td>
+        </tr>
+        <tr>
+          <td>street:</td>
+          <td>{{order.customer.street}}</td>
+        </tr>
+        <tr>
+          <td>housenumber:</td>
+          <td>{{order.customer.housenumber}}</td>
+        </tr>
+        <tr>
+          <td>zip:</td>
+          <td>{{order.customer.zip}}</td>
+        </tr>
+        <tr>
+          <td>city:</td>
+          <td>{{order.customer.city}}</td>
+        </tr>
+        <tr>
+          <td>phone:</td>
+          <td>{{order.customer.phone}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9"><button routerLink="/user/orders">back</button></div>
+  </div>
+</div>

@@ -1,7 +1,6 @@
 package dev.ansuro.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.ansuro.domain.Customer;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
  *
  * @author Andy
  */
-//@JsonIgnoreProperties
 public class OrderDTO {
     private Long id;
     private Customer customer;

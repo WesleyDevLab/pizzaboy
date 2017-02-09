@@ -7,9 +7,9 @@ import java.net.URI;
 import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,14 +29,11 @@ public class OrderRestController {
     @Autowired
     private OrderService orderService;
     
-    @Autowired
-    private Converter<OrderDTO, Order> orderDTOConverter;
-    
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public ResponseEntity<Order> saveOrder(@RequestBody OrderDTO order) {
         log.debug("TEST: {}", order);
         
-        Order createdOrder = orderService.createOrder(orderDTOConverter.convert(order));
+        Order createdOrder = orderService.createOrder(order);
         
         return ResponseEntity.created(URI.create("/api/order/" + createdOrder.getId())).build();
     }
@@ -46,5 +43,13 @@ public class OrderRestController {
     public ResponseEntity<List<OrderDTO>> getOrders() {
         List<OrderDTO> l = orderService.getOrders();
         return ResponseEntity.ok(l);
+    }
+    
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @RequestMapping(path = "/order/{id}", method = RequestMethod.GET)
+    public ResponseEntity<OrderDTO> getOrderDetails(@PathVariable String id) {
+        OrderDTO orderDTO = orderService.getOrderDetails(id);
+        
+        return ResponseEntity.ok(orderDTO);
     }
 }

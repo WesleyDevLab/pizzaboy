@@ -34,4 +34,8 @@ export class OrderService {
         console.log("error: " + r);
       });
   }
+
+  public getOrder(id: number): Promise<Order> {
+    return this.ahttp.get('http://localhost:8080/api/order/' + id).toPromise().then(r => r.json()).catch(r => console.log(r));
+  }
 }
