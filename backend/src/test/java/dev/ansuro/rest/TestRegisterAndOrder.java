@@ -144,8 +144,6 @@ public class TestRegisterAndOrder {
                 .content(user1)
                 .contentType(contentType))
                 .andExpect(status().isConflict());
-                // why is there no response but in curl?
-                //.andExpect(jsonPath("$.message", is("already registered")));
 
     }
     
@@ -184,10 +182,6 @@ public class TestRegisterAndOrder {
                 .contentType(contentType))
                 .andExpect(status().isCreated());
         
-        mockMvc.perform(post("/api/customer")
-                .content(json(customer))
-                .contentType(contentType))
-                .andExpect(status().isCreated());
         
         mockMvc.perform(post("/api/order")
                 .content(json(order))
