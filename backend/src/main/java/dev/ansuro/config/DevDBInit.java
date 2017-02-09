@@ -93,6 +93,12 @@ public class DevDBInit {
             user.setPassword(passwordEncoder.encode("admin"));
             user.setAuthorities(Arrays.asList(authorityRepository.findByName("USER"), authorityRepository.findByName("ADMIN")));
             userRepository.save(user);
+            
+            user = new User();
+            user.setMail("user@user.de");
+            user.setPassword(passwordEncoder.encode("user"));
+            user.setAuthorities(Arrays.asList(authorityRepository.findByName("USER")));
+            userRepository.save(user);
         }
     }
 }
