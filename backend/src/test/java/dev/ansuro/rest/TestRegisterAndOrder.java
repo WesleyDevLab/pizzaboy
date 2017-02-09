@@ -184,10 +184,6 @@ public class TestRegisterAndOrder {
                 .contentType(contentType))
                 .andExpect(status().isCreated());
         
-        mockMvc.perform(post("/api/customer")
-                .content(json(customer))
-                .contentType(contentType))
-                .andExpect(status().isCreated());
         
         mockMvc.perform(post("/api/order")
                 .content(json(order))
