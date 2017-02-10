@@ -32,6 +32,9 @@ import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ModalModule } from 'ng2-bootstrap/modal';
 import { DropdownModule } from 'ng2-bootstrap/dropdown';
 import { AlertModule } from 'ng2-bootstrap/alert';
+import { PizzaEditComponent } from './admin/pizza-edit/pizza-edit.component';
+import { IngredientEditComponent } from './admin/ingredient-edit/ingredient-edit.component';
+import { OrderEditComponent } from './admin/order-edit/order-edit.component';
 
 
 const appRoutes: Routes = [
@@ -41,6 +44,10 @@ const appRoutes: Routes = [
   { path: 'user/orders', component: OrderListComponent, canActivate: [UserGuard] },
   { path: 'user/order/:id', component: OrderDetailComponent, canActivate: [UserGuard], resolve: {order: OrderDetailsResolver} },
   { path: 'user/customer', component: EditCustomerComponent, canActivate: [UserGuard] },
+  { path: 'admin/orders', component: OrderEditComponent, canActivate: [AdminGuard] },
+  { path: 'admin/pizzas', component: PizzaEditComponent, canActivate: [AdminGuard] },
+  /*{ path: 'admin/pizza/:id', component: , canActivate: [AdminGuard] },*/
+  { path: 'admin/ingredients', component: IngredientEditComponent, canActivate: [AdminGuard] },
   { path: '', redirectTo: '/pizza', pathMatch: 'full' }
 ];
 
@@ -63,7 +70,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     RegisterComponent,
     OrderListComponent,
     EditCustomerComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    PizzaEditComponent,
+    IngredientEditComponent,
+    OrderEditComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

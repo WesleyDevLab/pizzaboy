@@ -34,4 +34,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public loggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
+
+  public adminLoggedIn(): boolean {
+    return this.authService.isAdmin();
+  }
 }

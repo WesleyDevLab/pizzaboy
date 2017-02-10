@@ -12,6 +12,14 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li role="presentation" *ngIf="!loggedIn()"><a (click)="c.showLogin()">Login</a></li>
+          <li role="presentation" *ngIf="adminLoggedIn()"><a routerLink="/admin/orders">Current orders</a></li>
+          <span dropdown *ngIf="adminLoggedIn()">
+            <a dropdownToggle href id="amenu">admin <span class="caret"></span></a>
+            <ul role="menu" dropdownMenu aria-labelledby="amenu">
+              <li role="menuitem"><a class="dropdown-item" routerLink="/admin/pizzas">Edit pizzas</a></li>
+              <li role="menuitem"><a class="dropdown-item" routerLink="/admin/ingredients">Edit ingredients</a></li>
+            </ul>
+          </span>
           <span dropdown *ngIf="loggedIn()">
             <a dropdownToggle href id="menu">{{username}} <span class="caret"></span></a>
             <ul class="dropdown-menu" dropdownMenu aria-labelledby="menu">
