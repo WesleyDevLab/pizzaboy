@@ -12,15 +12,13 @@ export class OrderService {
 
   public order(o: Order): Promise<void> {
     console.log(o);
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
 
-    return this.ahttp.post('http://localhost:8080/api/order', o, options).toPromise()
+    return this.ahttp.post('http://localhost:8080/api/order', o).toPromise()
       .then(r => {
         console.log(r);
       }).catch(r => {
         console.log(r);
-        Promise.reject(r);
+        return Promise.reject(r);
       });
   }
 
@@ -36,6 +34,9 @@ export class OrderService {
   }
 
   public getOrder(id: number): Promise<Order> {
-    return this.ahttp.get('http://localhost:8080/api/order/' + id).toPromise().then(r => r.json()).catch(r => console.log(r));
+    return this.ahttp.get('http://localhost:8080/api/order/' + id).toPromise().then(r => r.json()).catch(r => {
+      console.log(r);
+      return Promise.reject(r);
+    });
   }
 }

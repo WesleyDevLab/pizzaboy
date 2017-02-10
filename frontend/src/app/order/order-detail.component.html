@@ -6,17 +6,20 @@
     <div class="col-md-9">
       <table class="table table-striped">
         <tr>
+          <th>ordernumber</th>
           <th>name</th>
           <th># items</th>
           <th>price</th>
         </tr>
         <tr class="orderlistrow" *ngFor="let o of order.items">
+          <td>{{o.ordernumber}}</td>
           <td>{{o.name}}</td>
           <td>{{o.quantity}}</td>
           <td>{{o.price | currency: 'EUR'}}</td>
         </tr>
         <tr>
           <td>Total:</td>
+          <td></td>
           <td>{{order.nitems}}</td>
           <td>{{order.totalPrice | currency:'EUR'}}</td>
         </tr>

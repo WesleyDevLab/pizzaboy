@@ -13,8 +13,8 @@ export class OrderDetailsResolver implements Resolve<Order> {
         let id = route.params['id'];
 
         return this.orderService.getOrder(id).then(order => order).catch(() => {
+            console.log("order not found => catch");
             this.router.navigate(['/user/orders']);
-            return null;
         });
     }
 }
