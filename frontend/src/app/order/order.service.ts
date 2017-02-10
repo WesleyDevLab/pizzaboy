@@ -30,6 +30,7 @@ export class OrderService {
         return r.json();
       }).catch(r => {
         console.log("error: " + r);
+        return Promise.reject(r);
       });
   }
 

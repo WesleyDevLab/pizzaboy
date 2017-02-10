@@ -2,7 +2,10 @@
   <alert class="warning" *ngIf="noorders">
     <strong>No Orders</strong>
   </alert>
-  <table class="table table-striped" *ngIf="!noorders">
+  <alert type="danger" *ngIf="error">
+    <strong>Error</strong> Please try again later
+  </alert>
+  <table class="table table-striped" *ngIf="!noorders && !error">
     <tr>
       <th>Date</th>
       <th># items</th>
