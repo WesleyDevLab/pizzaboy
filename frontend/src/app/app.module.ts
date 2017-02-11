@@ -16,6 +16,9 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { OrderListComponent } from './order/order-list.component';
 import { EditCustomerComponent } from './customer/edit-customer.component';
 import { OrderDetailComponent } from './order/order-detail.component';
+import { PizzaEditComponent } from './admin/pizza-edit/pizza-edit.component';
+import { IngredientEditComponent } from './admin/ingredient-edit/ingredient-edit.component';
+import { OrderEditComponent } from './admin/order-edit/order-edit.component';
 
 import { PizzaService } from './pizza/pizza.service';
 import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
@@ -32,9 +35,7 @@ import { TabsModule } from 'ng2-bootstrap/tabs';
 import { ModalModule } from 'ng2-bootstrap/modal';
 import { DropdownModule } from 'ng2-bootstrap/dropdown';
 import { AlertModule } from 'ng2-bootstrap/alert';
-import { PizzaEditComponent } from './admin/pizza-edit/pizza-edit.component';
-import { IngredientEditComponent } from './admin/ingredient-edit/ingredient-edit.component';
-import { OrderEditComponent } from './admin/order-edit/order-edit.component';
+import { CollapseModule } from 'ng2-bootstrap/collapse';
 
 
 const appRoutes: Routes = [
@@ -84,7 +85,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     DropdownModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {
