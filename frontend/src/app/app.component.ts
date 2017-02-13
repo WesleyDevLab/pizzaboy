@@ -35,42 +35,55 @@ export class AppComponent implements OnInit, OnDestroy {
       this.username = username;
     });
 
+    this.setMenu();
+  }
+
+  public setMenu() {
     this.items = [{
       label: 'pizza',
       routerLink: ['/pizza']
-    },
-    {
-      label: 'admin',
-      items: [{
-        label: 'current orders',
-        routerLink: ['/admin/orders']
-      },
-      {
-        label: 'edit pizzas',
-        routerLink: ['/admin/pizzas']
-      },
-      {
-        label: 'edit ingredients',
-        routerLink: ['/admin/ingredients']
-      }]
-    },
-    {
-      label: 'USERNAME',
-      items: [{
-        label: 'orders',
-        routerLink: ['/user/orders']
-      },
-      {
-        label: 'customer',
-        routerLink: ['/user/customer']
-      }]
-    },
-    {
-      label: 'login',
-      command: (event) => {
-        this.loginCompo.showLogin();
-      }
     }];
+
+    if(this.adminLoggedIn()) {
+      this.items[1] = {
+        label: this.username,
+        items: [{
+          label: 'current orders',
+          routerLink: ['/admin/orders']
+        },
+        {
+          label: 'edit pizzas',
+          routerLink: ['/admin/pizzas']
+        },
+        {
+          label: 'edit ingredients',
+          routerLink: ['/admin/ingredients']
+        }]
+      };
+    }
+    
+    if(this.loggedIn() && !this.adminLoggedIn()) {
+      this.items[1] = {
+        label: this.username,
+        items: [{
+          label: 'orders',
+          routerLink: ['/user/orders']
+        },
+        {
+          label: 'customer',
+          routerLink: ['/user/customer']
+        }]
+      }
+    }
+    
+    if(!this.loggedIn()) {
+      this.items[1] = {
+        label: 'login',
+        command: (event) => {
+          this.loginCompo.showLogin();
+        }
+      };
+    }
   }
 
   ngOnDestroy() {
