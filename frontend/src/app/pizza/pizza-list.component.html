@@ -1,24 +1,36 @@
-<div class="col-md-9">
-  <p *ngIf="errorMessage">{{errorMessage}}</p>
-  <h2>Pizza</h2>
-  <div class="row" *ngFor="let pizza of pizzas">
-    <div class="col-md-12">{{pizza.name}}
-      <div class="row">
-        <div class="col-md-3">PICTURE</div>
-        <div class="col-md-9">
-          <span class="label label-primary" style="margin-left: 5px;" *ngFor="let ing of pizza.ingredients">{{ing.name}}</span>
+<div class="ui-g">
+  <div class="ui-g-9">
+    <p *ngIf="errorMessage">{{errorMessage}}</p>
+    <p-dataList [value]="pizzas">
+      <p-header>Pizzas</p-header>
+      <template let-p pTemplate="item">
+        <div class="ui-grid" style="padding: 20px;">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12"><strong>{{p.name}}</strong></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              PICTURE
+            </div>
+            <div class="ui-grid-col-9">
+              <button *ngFor="let ing of p.ingredients" class="ui-button-secondary" pButton type="button" label="{{ing.name}}" pTooltip="{{ing.description}}" tooltipPosition="top"></button>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-9"></div>
+            <div class="ui-grid-col-3">
+              <div style="float: right;">
+              {{p.price | currency: 'EUR'}}
+              <input #quantity type="number" maxlength="2" min="1" max="9" size="1" value="1" pattern="[1-9]{1}" />
+              <button (click)="addToCart(p, quantity.value)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2 col-md-offset-10">
-          {{pizza.price | currency: 'EUR'}}
-          <input #quantity type="number" maxlength="2" min="1" max="9" size="1" value="1" pattern="[1-9]{1}" />
-          <button (click)="addToCart(pizza, quantity.value)"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-      </div>
-    </div>
+      </template>
+    </p-dataList>
   </div>
-</div>
-<div class="col-md-3">
-  <shopping-cart></shopping-cart>
+  <div class="ui-g-3">
+    <shopping-cart></shopping-cart>
+  </div>
 </div>

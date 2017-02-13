@@ -1,4 +1,4 @@
-<alert type="success" *ngIf="saved">
+<!--<alert type="success" *ngIf="saved">
   <strong>Saved!</strong> Customer data saved
 </alert>
 <alert type="danger" *ngIf="error">
@@ -6,7 +6,7 @@
 </alert>
 <alert type="warning" *ngIf="nocustomer">
   <strong>Error</strong> No customer data saved!
-</alert>
+</alert>-->
 <form (ngSubmit)="save()" #f="ngForm">
   <app-customer></app-customer>
   <button type="submit" [disabled]="!f.form.valid">save</button>

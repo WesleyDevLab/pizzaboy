@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { LoginComponent } from './authentication/login/login.component'
 import { AuthenticationService } from './authentication/authentication.service';
 
 import { Subscription }   from 'rxjs/Subscription';
+import { MenuItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,10 @@ import { Subscription }   from 'rxjs/Subscription';
 export class AppComponent implements OnInit, OnDestroy {
   username: string = "";
   private subscription: Subscription;
+  private items: MenuItem[];
+
+  @ViewChild('loginDialog')
+  private loginCompo: LoginComponent;
   
   constructor(private authService: AuthenticationService) {
   }
@@ -20,11 +25,52 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
+  public showLogin() {
+    this.loginCompo.showLogin();
+  }
+
   ngOnInit() {
     this.authService.loggedIn$.subscribe(username => {
       console.log(username);
       this.username = username;
     });
+
+    this.items = [{
+      label: 'pizza',
+      routerLink: '/pizza'
+    },
+    {
+      label: 'admin',
+      items: [{
+        label: 'current orders',
+        routerLink: ['/admin/orders']
+      },
+      {
+        label: 'edit pizzas',
+        routerLink: ['/admin/pizzas']
+      },
+      {
+        label: 'edit ingredients',
+        routerLink: ['/admin/ingredients']
+      }]
+    },
+    {
+      label: 'USERNAME',
+      items: [{
+        label: 'orders',
+        routerLink: ['/user/orders']
+      },
+      {
+        label: 'customer',
+        routerLink: ['/user/customer']
+      }]
+    },
+    {
+      label: 'login',
+      command: (event) => {
+        this.loginCompo.showLogin();
+      }
+    }];
   }
 
   ngOnDestroy() {

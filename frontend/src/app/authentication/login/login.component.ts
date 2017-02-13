@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap';
 
 import { AuthenticationService } from '../authentication.service';
 
@@ -13,9 +12,7 @@ export class LoginComponent {
   public email: string;
   public pw: string;
   public lerror: boolean;
-
-  @ViewChild('loginModal')
-  private loginModal: ModalDirective;
+  public show: boolean = false;
 
   constructor(private authService: AuthenticationService) { }
 
@@ -27,11 +24,11 @@ export class LoginComponent {
   }
 
   public showLogin() {
-    this.loginModal.show();
+    this.show = true;
   }
 
   public hideLogin() {
-    this.loginModal.hide();
+    this.show = false;
     this.email = "";
     this.pw = "";
     this.lerror = false;

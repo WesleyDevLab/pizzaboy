@@ -1,50 +1,49 @@
-<alert type="danger" *ngIf="error">
+<!--<alert type="danger" *ngIf="error">
   <strong>Error</strong> Please try again later
-</alert>
+</alert>-->
 <!-- TODO later: customize class nav nav-tabs -->
-<div class="col-md-8 col-md-offset-2">
-  <alert type="success" *ngIf="done">
+<div class="ui-g-12">
+  <!--  <alert type="success" *ngIf="done">
     <strong>Order sent</strong> Thanks for ordering!
-  </alert>
-  <tabset *ngIf="!done">
-    <tab [active]="tabs[0].active" (select)="tabs[0].active = true; tabs[1].active = false" heading="your order" class="t">
-      <table class="table">
-        <tr>
-          <th>Pizza</th>
-          <th>Price</th>
-          <th>Total</th>
-        </tr>
-        <tr *ngFor="let o of orders">
-          <td>{{o.pizza.name}}</td>
-          <td>{{o.quantity}}x{{o.pizza.price | currency: 'EUR'}}</td>
-          <td>{{o.quantity * o.pizza.price | currency:'EUR'}}</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>Total: {{total | currency: 'EUR'}}</td>
-        </tr>
-      </table>
-      <button routerLink="/pizza"><span class="glyphicon glyphicon-chevron-left"></span>back</button>
-      <button (click)="switchTabs()">next<span class="glyphicon glyphicon-chevron-right"></span></button>
-    </tab>
-    <tab [disabled]="tabs[1].disabled" [active]="tabs[1].active" (select)="tabs[1].active = true; tabs[0].active = false" heading="delivery information">
-      <form (ngSubmit)="orderNow()" #f="ngForm">
-        <app-customer></app-customer>
-         <div class="form-group" *ngIf="!loggedIn()">
-           <div class="checkbox">
-            <label>
+  </alert>-->
+  <p-steps [model]="steps" [(activeIndex)]="active"></p-steps>
+  <div *ngIf="active == 0">
+    <table class="table">
+      <tr>
+        <th>Pizza</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+      <tr *ngFor="let o of orders">
+        <td>{{o.pizza.name}}</td>
+        <td>{{o.quantity}}x{{o.pizza.price | currency: 'EUR'}}</td>
+        <td>{{o.quantity * o.pizza.price | currency:'EUR'}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Total: {{total | currency: 'EUR'}}</td>
+      </tr>
+    </table>
+    <button routerLink="/pizza"><i class="fa fa-chevron-left" aria-hidden="true"></i>back</button>
+    <button (click)="active = 1">next<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+  </div>
+  <div *ngIf="active == 1">
+    <form (ngSubmit)="orderNow()" #f="ngForm">
+      <app-customer></app-customer>
+      <div class="form-group" *ngIf="!loggedIn()">
+        <div class="checkbox">
+          <label>
               <input type="checkbox" [(ngModel)]="register" name="register" />
               register?
             </label>
-           </div>
-         </div>
-         <div *ngIf="register">
-          <app-register></app-register>
-         </div>
-         <button formnovalidate type="button" (click)="switchTabs()"><span class="glyphicon glyphicon-chevron-left"></span>back</button>
-         <button type="submit" [disabled]="!f.form.valid">submit</button>
-        </form>
-    </tab>
-  </tabset>
+        </div>
+      </div>
+      <div *ngIf="register">
+        <app-register></app-register>
+      </div>
+      <button formnovalidate type="button" (click)="active = 0"><i class="fa fa-chevron-left" aria-hidden="true"></i>back</button>
+      <button type="submit" [disabled]="!f.form.valid">submit</button>
+    </form>
+  </div>
 </div>

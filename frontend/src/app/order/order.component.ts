@@ -15,6 +15,8 @@ import { Customer } from '../customer/customer.model';
 import { User } from '../authentication/user.model';
 import { Order } from './order.model';
 
+import { MenuItem } from 'primeng/primeng';
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -25,17 +27,14 @@ export class OrderComponent implements OnInit {
   register: boolean = false;
   done: boolean = false;
   error: boolean = false;
+  active: number = 0;
+  private steps: MenuItem[];
   
   @ViewChild(RegisterComponent)
   private registerComponent: RegisterComponent;
 
   @ViewChild(CustomerComponent)
   private customerComponent: CustomerComponent;
-
-  tabs : any = [
-    {},
-    {disabled: true}
-  ]
 
   constructor(private cartService: ShoppingCartService, private router: Router, private orderService: OrderService, private authService: AuthenticationService, private customerService: CustomerService) {
     cartService.orders.subscribe(neworders => {
@@ -99,12 +98,6 @@ export class OrderComponent implements OnInit {
      return this.cartService.total;
   }
 
-  public switchTabs() {
-    this.tabs[1].disabled = false;
-    this.tabs[0].active = !this.tabs[0].active;
-    this.tabs[1].active = !this.tabs[1].active;
-    console.log(this.tabs);
-  }
 
   // redirect, if there are no orders
   ngOnInit() {
@@ -113,7 +106,16 @@ export class OrderComponent implements OnInit {
       this.router.navigate(["/"]);
     }
 
-    this.tabs[0].active = true;
+    this.steps = [{
+      label: 'review order'
+    },
+    {
+      label: 'delivery information'
+    },
+    {
+      label: 'confirm'
+    }];
+    
     this.customerService.getCustomer().then(c => {
       console.log(c);
       this.customerComponent.customer = c;

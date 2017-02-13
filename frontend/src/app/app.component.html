@@ -1,39 +1,7 @@
-<app-login #c="child"></app-login>
-<div class="container">
-<!--  <div class="row">
-    HEADER LOGO
-  </div>-->
-  <div class="row header">
-    <div class="col-md-12">
-      <nav role="navigation">
-        <ul class="nav navbar-nav">
-          <li role="presentation"><a routerLink="/">Deal of the Day</a></li>
-          <li role="presentation"><a routerLink="/pizza">pizza</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li role="presentation" *ngIf="!loggedIn()"><a (click)="c.showLogin()">Login</a></li>
-          <li role="presentation" *ngIf="adminLoggedIn()"><a routerLink="/admin/orders">Current orders</a></li>
-          <span dropdown *ngIf="adminLoggedIn()">
-            <a dropdownToggle href id="amenu">admin <span class="caret"></span></a>
-            <ul role="menu" dropdownMenu aria-labelledby="amenu">
-              <li role="menuitem"><a class="dropdown-item" routerLink="/admin/pizzas">Edit pizzas</a></li>
-              <li role="menuitem"><a class="dropdown-item" routerLink="/admin/ingredients">Edit ingredients</a></li>
-            </ul>
-          </span>
-          <span dropdown *ngIf="loggedIn()">
-            <a dropdownToggle href id="menu">{{username}} <span class="caret"></span></a>
-            <ul class="dropdown-menu" dropdownMenu aria-labelledby="menu">
-              <li role="menuitem"><a class="dropdown-item" routerLink="/user/orders">orders</a></li>
-              <li role="menuitem"><a class="dropdown-item" routerLink="/user/customer">customer data</a></li>
-              <li class="divider dropdown-divider"></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="logout()">logout</a></li>
-            </ul>
-          </span>
-        </ul>
-      </nav>
-    </div>
-  </div>
-  <div class="row">
-    <router-outlet></router-outlet>
+<app-login #loginDialog="child"></app-login>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-menubar [model]="items"></p-menubar>
   </div>
 </div>
+<router-outlet></router-outlet>

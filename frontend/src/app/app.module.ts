@@ -31,11 +31,14 @@ import { AdminGuard } from './authentication/admin-guard.service';
 
 import { OrderDetailsResolver } from './order/order-details-resolver';
 
-import { TabsModule } from 'ng2-bootstrap/tabs';
-import { ModalModule } from 'ng2-bootstrap/modal';
-import { DropdownModule } from 'ng2-bootstrap/dropdown';
-import { AlertModule } from 'ng2-bootstrap/alert';
-import { CollapseModule } from 'ng2-bootstrap/collapse';
+import { TabViewModule } from 'primeng/primeng';
+import { DialogModule } from 'primeng/primeng';
+import { MenubarModule, MenuItem } from 'primeng/primeng';
+import { MessagesModule } from 'primeng/primeng';
+import { DataListModule } from 'primeng/primeng';
+import { StepsModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/primeng';
+import { TooltipModule } from 'primeng/primeng';
 
 
 const appRoutes: Routes = [
@@ -82,11 +85,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FormsModule,
     HttpModule,
     JsonpModule,
-    TabsModule.forRoot(),
-    ModalModule.forRoot(),
-    DropdownModule.forRoot(),
-    AlertModule.forRoot(),
-    CollapseModule.forRoot()
+    MenubarModule,
+    DataListModule,
+    MessagesModule,
+    StepsModule,
+    DialogModule,
+    ButtonModule,
+    TooltipModule
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {
