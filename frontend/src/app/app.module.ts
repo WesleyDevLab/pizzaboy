@@ -40,6 +40,7 @@ import { StepsModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/primeng';
 import { TooltipModule } from 'primeng/primeng';
 import { InputTextModule } from 'primeng/primeng';
+import { SpinnerModule } from 'primeng/primeng';
 
 
 const appRoutes: Routes = [
@@ -93,7 +94,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DialogModule,
     ButtonModule,
     TooltipModule,
-    InputTextModule
+    InputTextModule,
+    SpinnerModule
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {
