@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.items = [{
       label: 'pizza',
-      routerLink: '/pizza'
+      routerLink: ['/pizza']
     },
     {
       label: 'admin',
