@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.authService.logout();
+    this.setMenu();
   }
 
   public showLogin() {
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.loggedIn$.subscribe(username => {
       console.log(username);
       this.username = username;
+      this.setMenu();
     });
 
     this.setMenu();
@@ -58,6 +60,12 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           label: 'edit ingredients',
           routerLink: ['/admin/ingredients']
+        },
+        {
+          label: 'logout',
+          command: (event) => {
+            this.logout();
+          }
         }]
       };
     }
@@ -72,6 +80,12 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           label: 'customer',
           routerLink: ['/user/customer']
+        },
+        {
+          label: 'logout',
+          command: (event) => {
+            this.logout();
+          }
         }]
       }
     }
