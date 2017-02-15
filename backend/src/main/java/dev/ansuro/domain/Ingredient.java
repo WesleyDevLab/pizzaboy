@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -16,7 +17,10 @@ public class Ingredient implements Serializable {
     @GeneratedValue
     private Long id;
     
+    @NotNull
     private String name;
+    
+    @NotNull
     private String description;
 
     public Ingredient() {

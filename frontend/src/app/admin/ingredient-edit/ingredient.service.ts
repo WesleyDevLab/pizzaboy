@@ -19,8 +19,11 @@ export class IngredientService {
   }
 
   public save(ing: Ingredient) {
-    this.ahttp.post('http://localhost:8080/api/admin/ingredient', JSON.stringify(ing)).toPromise()
+    return this.ahttp.post('http://localhost:8080/api/admin/ingredient', JSON.stringify(ing)).toPromise()
       .then(r => console.log(r))
-      .catch(r => console.log("error: " + r));
+      .catch(r => {
+        console.log("error: " + r);
+        return Promise.reject(r);
+      });
   }
 }

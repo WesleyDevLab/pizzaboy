@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Message } from 'primeng/primeng';
+
 import { Ingredient } from './ingredient.model';
 import { IngredientService } from './ingredient.service'
 
@@ -10,9 +12,10 @@ import { IngredientService } from './ingredient.service'
   providers: [IngredientService]
 })
 export class IngredientEditComponent implements OnInit {
-  isCollapsed: boolean = true;
+  displayForm: boolean = false;
   selectedIng: Ingredient;
   ingredients: Ingredient[];
+  msgs: Message[] = [];
 
   constructor(private ingService: IngredientService) {}
 
@@ -27,14 +30,32 @@ export class IngredientEditComponent implements OnInit {
   }
 
   public save() {
-    console.log("add");
-    this.ingService.save(this.selectedIng);
-
-    this.selectedIng = null;
+    console.log(this.selectedIng);
+    this.ingService.save(this.selectedIng).then(() => {
+      this.load();
+      this.displayForm = false;
+    }).catch(r => {
+      this.msgs.push({severity: 'error', summary: 'save failed', detail: 'save failed'});
+    });
+    
   }
 
-  public selectIng(ing: Ingredient) {
-    this.selectedIng = ing;
-    this.isCollapsed = false;
+  public onRowSelect(evt) {
+    console.log(evt);
+    this.selectedIng.id = evt.data.id;
+    this.selectedIng.name = evt.data.name;
+    this.selectedIng.description = evt.data.description;
+    this.displayForm = true;
   }
+
+  public showAddDialog() {
+    this.selectedIng = new Ingredient();
+
+    this.displayForm = true;
+  }
+
+  public close() {
+    this.displayForm = false;
+  }
+
 }

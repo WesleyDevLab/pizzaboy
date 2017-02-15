@@ -1,35 +1,36 @@
-<div class="ui-g-8">
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">new ingredient</button>
-      <hr>
-      <div class="card card-block card-header">
-        <form (ngSubmit)="save()" #f="ngForm">
-          <div class="form-group">
-            <label for="name">name</label>
-            <input type="text" placeholder="name" id="name" class="form-control" [(ngModel)]="selectedIng.name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="desc">description</label>
-            <input type="text" placeholder="description" id="desc" class="form-control" [(ngModel)]="selectedIng.description" name="description" required>
-          </div>
-          <button type="submit" [disabled]="!f.form.valid">save</button>
-        </form>
+<p-growl [value]="msgs"></p-growl>
+<div class="ui-g">
+  <div class="ui-g-8">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <p-dataTable [value]="ingredients" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+          <p-header>Ingredients</p-header>
+          <p-column field="name" header="name"></p-column>
+          <p-column field="description" header="description"></p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showAddDialog()" label="add"></button></div>
+          </p-footer>
+        </p-dataTable>
       </div>
     </div>
   </div>
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <table class="table">
-        <tr>
-          <th>name</th>
-          <th>description</th>
-        </tr>
-        <tr *ngFor="let ing of ingredients" (click)="selectIng(ing)">
-          <td>{{ing.name}}</td>
-          <td>{{ing.description}}</td>
-        </tr>
-      </table>
+</div>
+<p-dialog [(visible)]="displayForm" [modal]="true" [responsive]="true">
+  <p-header><strong>{{selectedIng.name}}</strong></p-header>
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="name">name:</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="selectedIng.name" name="name" /></div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="desc">description:</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="desc" [(ngModel)]="selectedIng.description" name="description" /></div>
     </div>
   </div>
-</div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-close" (click)="close()" label="Cancel"></button>
+      <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>
