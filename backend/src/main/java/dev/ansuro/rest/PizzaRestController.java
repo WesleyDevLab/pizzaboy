@@ -1,12 +1,12 @@
 package dev.ansuro.rest;
 
-import dev.ansuro.domain.Ingredient;
 import dev.ansuro.domain.Pizza;
 import dev.ansuro.service.PizzaService;
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +29,8 @@ public class PizzaRestController {
     }
     
     @RequestMapping(path = "/admin/pizza", method = RequestMethod.POST)
-    public ResponseEntity<Pizza> add(Pizza pizza) {
-        return null;
+    public ResponseEntity<Pizza> add(@RequestBody Pizza pizza) {
+        Pizza p = pizzaService.createPizza(pizza);
+        return ResponseEntity.created(URI.create("/api/admin/pizza" + p.getId())).build();
     }
 }

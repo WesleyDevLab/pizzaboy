@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,7 +45,8 @@ public class Order implements Serializable {
     @CreatedDate
     private ZonedDateTime created = ZonedDateTime.now();
     
-    private Boolean delivered;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     public Order() {
     }
@@ -87,21 +90,17 @@ public class Order implements Serializable {
     public void setCreated(ZonedDateTime created) {
         this.created = created;
     }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
     
-    public Boolean getDelivered() {
-        return delivered;
-    }
-
-    public void setDelivered(Boolean delivered) {
-        this.delivered = delivered;
-    }
-
     public double getTotalPrice() {
         return this.items.stream().mapToDouble(o -> o.getPrice()).sum();
     }
 
-    @Override
-    public String toString() {
-        return "Order{" + "id=" + id + ", user=" + user + ", items=" + items + ", delivered=" + delivered + '}';
-    }
 }

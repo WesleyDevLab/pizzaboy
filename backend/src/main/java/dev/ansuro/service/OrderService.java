@@ -1,10 +1,10 @@
 package dev.ansuro.service;
 
 import dev.ansuro.converter.OrderConverter;
-import dev.ansuro.converter.OrderDTOConverter;
 import dev.ansuro.converter.OrderDetailsDTOConverter;
 import dev.ansuro.domain.Customer;
 import dev.ansuro.domain.Order;
+import dev.ansuro.domain.OrderStatus;
 import dev.ansuro.domain.User;
 import dev.ansuro.repository.CustomerRepository;
 import dev.ansuro.repository.OrderRepository;
@@ -49,9 +49,11 @@ public class OrderService {
     @Autowired
     private OrderDetailsDTOConverter orderDetailsDTOConverter;
     
+    // create a new order, authenticated or not..
     @Transactional
     public Order createOrder(OrderDTO orderDTO) {
         Order order = orderDTOConverter.convert(orderDTO);
+        order.setOrderStatus(OrderStatus.OPEN);
         
         log.debug("order: " + order);
         if(order.getCustomer() == null) {
@@ -81,11 +83,13 @@ public class OrderService {
         return orderRepository.saveAndFlush(order);
     }
 
+    // get all orders for the current authenticated user
     public List<OrderDTO> getOrders() {
         List<Order> ordersFromCurrentUser = orderRepository.getOrdersFromCurrentUser();
         return ordersFromCurrentUser.stream().map(o -> orderConverter.convert(o)).collect(Collectors.toList());
     }
 
+    // get the order details from the authenticated users order
     public OrderDTO getOrderDetails(String id) {
         Order o = orderRepository.findOneById(Long.valueOf(id)).orElseThrow(() -> new OrderNotFoundException());
         
