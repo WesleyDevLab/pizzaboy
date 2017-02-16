@@ -4,7 +4,7 @@
 <div class="ui-g" *ngFor="let item of items">
   <div class="ui-g-4">{{item.quantity}}x{{item.pizza.name}}</div>
   <div class="ui-g-3">{{item.pizza.price * item.quantity | currency: 'EUR'}}</div>
-  <div class="ui-g-3"><span class="glyphicon glyphicon-remove-sign" (click)="delete(item)"></span></div>
+  <div class="ui-g-3"><button pButton icon="fa fa-trash" (click)="delete(item)" type="button" class="ui-button-secondary"></button></div>
 </div>
 <div class="ui-g">
   <div *ngIf="items.length != 0" class="ui-g-6">Total: {{total | currency: 'EUR'}}</div>
