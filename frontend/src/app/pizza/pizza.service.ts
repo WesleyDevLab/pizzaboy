@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -10,10 +11,10 @@ import { Pizza } from './pizza.model';
 @Injectable()
 export class PizzaService {
 
-  constructor(private http: Http) { }
+  constructor(private ahttp: AuthHttp) { }
 
   public getPizzas(): Observable<Pizza[]> {
-    return this.http.get('http://localhost:8080/api/pizzas')
+    return this.ahttp.get('http://localhost:8080/api/pizzas')
       .map(this.getData)
       .catch(this.handleError);
   }
@@ -36,5 +37,17 @@ export class PizzaService {
     }
     //console.error(errMsg);
     return Observable.throw(errMsg);
+  }
+
+  public getPizza(id: number): Promise<Pizza> {
+    return this.ahttp.get('http://localhost:8080/api/admin/pizza/' + id).toPromise().then(r => r.json()).catch(e => {
+      console.log("pizza not found. id: " + id);
+      return Promise.reject(e);
+    });
+  }
+
+  public save(p: Pizza): Promise<Response> {
+    console.log("save " + p);
+    return this.ahttp.post('http://localhost:8080/api/admin/pizza', JSON.stringify(p)).toPromise();
   }
 }

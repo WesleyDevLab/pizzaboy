@@ -1,6 +1,5 @@
 package dev.ansuro.service;
 
-import dev.ansuro.domain.Pizza;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

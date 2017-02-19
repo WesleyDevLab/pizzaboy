@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PizzaRepository extends JpaRepository<Pizza, Long> {
     
     Optional<Pizza> findOneByOrdernumber(String on);
-    
+    Optional<Pizza> findOneById(Long id);
 }

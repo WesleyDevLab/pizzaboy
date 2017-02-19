@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,5 +33,11 @@ public class PizzaRestController {
     public ResponseEntity<Pizza> add(@RequestBody Pizza pizza) {
         Pizza p = pizzaService.createPizza(pizza);
         return ResponseEntity.created(URI.create("/api/admin/pizza" + p.getId())).build();
+    }
+    
+    @RequestMapping(path = "/admin/pizza/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Pizza> getPizza(@PathVariable String id) {
+        Pizza p = pizzaService.getPizza(id);
+        return ResponseEntity.ok(p);
     }
 }

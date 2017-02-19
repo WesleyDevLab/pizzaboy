@@ -26,6 +26,10 @@ public class PizzaService {
     public Pizza createPizza(Pizza pizza) {
         return pizzaRepository.saveAndFlush(pizza);
     }
-    
-    
+
+    public Pizza getPizza(String id) {
+        Pizza p = pizzaRepository.findOneById(Long.valueOf(id)).orElseThrow(() -> new PizzaNotFoundException());
+        
+        return p;
+    }
 }

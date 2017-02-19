@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PizzaService } from './pizza.service';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 import { Pizza } from './pizza.model';
 
@@ -13,8 +15,10 @@ import { Pizza } from './pizza.model';
 export class PizzaListComponent implements OnInit {
   public pizzas: Pizza[];
   errorMessage: string;
+  // just to init the spinner
+  initvalue: number = 1;
 
-  constructor(private pizzaService: PizzaService, private cartService: ShoppingCartService) { }
+  constructor(private pizzaService: PizzaService, private cartService: ShoppingCartService, private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     this.getPizzas();
@@ -31,4 +35,11 @@ export class PizzaListComponent implements OnInit {
     this.pizzaService.getPizzas().subscribe(pizzas => this.pizzas = pizzas, error => this.errorMessage = <any>error);
   }
 
+  public isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  public edit(p: Pizza) {
+    this.router.navigate(['/admin/pizza', p.id]);
+  }
 }

@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
 import { Ingredient } from './ingredient.model';
 
 @Injectable()
@@ -10,12 +7,9 @@ export class IngredientService {
 
   constructor(private ahttp: AuthHttp) { }
 
-  public getIngredients() {
+  public getIngredients(): Promise<Ingredient[]> {
     console.log("getIngredients");
-    return this.ahttp.get('http://localhost:8080/api/admin/ingredient').map(r => r.json()).catch(e => {
-      console.info(e);
-      return Observable.throw(e);
-    });
+    return this.ahttp.get('http://localhost:8080/api/admin/ingredient').toPromise().then(r => r.json()).catch(r => Promise.reject(r));
   }
 
   public save(ing: Ingredient) {

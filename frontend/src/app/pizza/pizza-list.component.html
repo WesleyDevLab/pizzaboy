@@ -6,7 +6,7 @@
       <template let-p pTemplate="item">
         <div class="ui-grid" style="padding: 20px;">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-12"><strong>{{p.name}}</strong></div>
+            <div class="ui-grid-col-12"><strong>{{p.ordernumber}} {{p.name}}</strong><button *ngIf="isAdmin()" (click)="edit(p)">edit</button></div>
           </div>
           <div class="ui-grid-row">
             <div class="ui-grid-col-3">
@@ -21,7 +21,7 @@
             <div class="ui-grid-col-3">
               <div style="float: right;">
                 {{p.price | currency: 'EUR'}}
-                <p-spinner size="1" [min]="0" [max]="9" #quantity [step]="1"></p-spinner>
+                <p-spinner size="1" [min]="0" [max]="9" #quantity [step]="1" [(ngModel)]="initvalue"></p-spinner>
                 <button (click)="addToCart(p, quantity.value)"><i class="fa fa-plus" aria-hidden="true"></i></button>
               </div>
             </div>

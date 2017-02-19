@@ -8,8 +8,7 @@ import { IngredientService } from './ingredient.service'
 @Component({
   selector: 'app-ingredient-edit',
   templateUrl: './ingredient-edit.component.html',
-  styleUrls: ['./ingredient-edit.component.css'],
-  providers: [IngredientService]
+  styleUrls: ['./ingredient-edit.component.css']
 })
 export class IngredientEditComponent implements OnInit {
   displayForm: boolean = false;
@@ -26,7 +25,7 @@ export class IngredientEditComponent implements OnInit {
 
   private load() {
     console.log("load");
-    this.ingService.getIngredients().subscribe(i => this.ingredients = i, err => console.log(err));
+    this.ingService.getIngredients().then(i => this.ingredients = i).catch(err => console.log(err));
   }
 
   public save() {

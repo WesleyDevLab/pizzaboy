@@ -1,3 +1,55 @@
-<p>
-  pizza-edit works!
-</p>
+<p-messages [value]="msgs"></p-messages>
+<form (ngSubmit)="save()" #f="ngForm">
+  <div class="ui-g">
+    <div class="ui-g-2">Picture</div>
+    <div class="ui-g-10">
+      <div class="ui-grid">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-2">
+            <label>Ordernumber:</label>
+          </div>
+          <div class="ui-grid-col-10">
+            <input pInputText type="text" size="30" [(ngModel)]="p.ordernumber" name="ordernumber" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-2">
+            <label>Name:</label>
+          </div>
+          <div class="ui-grid-col-10">
+            <input pInputText type="text" size="30" [(ngModel)]="p.name" name="name" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-2">
+            <label>Price:</label>
+          </div>
+          <div class="ui-grid-col-10">
+            <input pInputText type="text" size="30" [(ngModel)]="p.price" name="price" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-12">
+            <p-pickList [source]="ingredients" [target]="p.ingredients" sourceHeader="Available Ingredients" targetHeader="Selected Ingredients"
+              [showSourceControls]="false" [showTargetControls]="false">
+              <template let-i pTemplate="item">
+                <div class="ui-helper-clearfix">
+                  {{i.name}}
+                </div>
+              </template>
+              </p-pickList>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-1">
+            <button pButton type="button" icon="fa fa-chevron-left" label="back"></button>
+          </div>
+          <div class="ui-grid-col-1"></div>
+          <div class="ui-grid-col-1">
+            <button pButton type="submit" icon="fa fa-chevron-right" label="save" [disabled]="!f.form.valid"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

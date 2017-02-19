@@ -6,7 +6,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
-import { PizzaDetailComponent } from './pizza/pizza-detail.component';
 import { PizzaListComponent } from './pizza/pizza-list.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { OrderComponent } from './order/order.component';
@@ -25,11 +24,14 @@ import { ShoppingCartService } from './shopping-cart/shopping-cart.service'
 import { AuthenticationService } from './authentication/authentication.service';
 import { CustomerService } from './customer/customer.service';
 import { OrderService } from './order/order.service';
+import { IngredientService } from './admin/ingredient-edit/ingredient.service';
 
 import { UserGuard } from './authentication/user-guard.service';
 import { AdminGuard } from './authentication/admin-guard.service';
 
 import { OrderDetailsResolver } from './order/order-details-resolver';
+import { PizzaEditResolver } from './admin/pizza-edit/pizza-edit-resolver';
+import { IngredientsResolver } from './admin/pizza-edit/ingredients-resolver';
 
 import { TabViewModule } from 'primeng/primeng';
 import { DialogModule } from 'primeng/primeng';
@@ -43,18 +45,17 @@ import { InputTextModule } from 'primeng/primeng';
 import { SpinnerModule } from 'primeng/primeng';
 import { DataTableModule, SharedModule } from 'primeng/primeng';
 import { GrowlModule } from 'primeng/primeng';
+import { PickListModule } from 'primeng/primeng';
 
 
 const appRoutes: Routes = [
-  { path: 'pizza/:id', component: PizzaDetailComponent },
   { path: 'pizza', component: PizzaListComponent },
   { path: 'order', component: OrderComponent },
   { path: 'user/orders', component: OrderListComponent, canActivate: [UserGuard] },
   { path: 'user/order/:id', component: OrderDetailComponent, canActivate: [UserGuard], resolve: {order: OrderDetailsResolver} },
   { path: 'user/customer', component: EditCustomerComponent, canActivate: [UserGuard] },
   { path: 'admin/orders', component: OrderEditComponent, canActivate: [AdminGuard] },
-  { path: 'admin/pizzas', component: PizzaEditComponent, canActivate: [AdminGuard] },
-  /*{ path: 'admin/pizza/:id', component: , canActivate: [AdminGuard] },*/
+  { path: 'admin/pizza/:id', component: PizzaEditComponent, canActivate: [AdminGuard], resolve: {pizza: PizzaEditResolver, ingredients: IngredientsResolver} },
   { path: 'admin/ingredients', component: IngredientEditComponent, canActivate: [AdminGuard] },
   { path: '', redirectTo: '/pizza', pathMatch: 'full' }
 ];
@@ -69,7 +70,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 @NgModule({
   declarations: [
     AppComponent,
-    PizzaDetailComponent,
     PizzaListComponent,
     ShoppingCartComponent,
     OrderComponent,
@@ -99,14 +99,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     InputTextModule,
     SpinnerModule,
     DataTableModule,
-    GrowlModule
+    GrowlModule,
+    PickListModule
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]
-  }, UserGuard, AdminGuard, OrderService, OrderDetailsResolver],
+  }, UserGuard, AdminGuard, OrderService, OrderDetailsResolver, IngredientService, PizzaEditResolver, IngredientsResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
