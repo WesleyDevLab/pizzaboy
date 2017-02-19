@@ -11,6 +11,11 @@ export class PizzaEditResolver implements Resolve<Pizza> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Pizza> {
         let id = route.params['id'];
+        console.log("route id: " + id);
+        if(id == 'new') {
+            let p = new Pizza(0, 0, '', 0, []);
+            return Promise.resolve(p);
+        }
 
         return this.pizzaService.getPizza(id).then(pizza => pizza).catch(() => {
             console.log("pizza not found => catch");

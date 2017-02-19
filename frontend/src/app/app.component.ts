@@ -54,8 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
           routerLink: ['/admin/orders']
         },
         {
-          label: 'edit pizzas',
-          routerLink: ['/admin/pizzas']
+          label: 'new pizza',
+          routerLink: ['/admin/pizza/new']
         },
         {
           label: 'edit ingredients',
