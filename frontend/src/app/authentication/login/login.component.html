@@ -17,7 +17,7 @@
           <input type="password" pInputText required placeholder="password" id="pw" name="pw" [(ngModel)]="pw" />
         </div>
       </div>
-      <button type="submit" [disabled]="!f.form.valid">submit</button>
+      <button pButton type="submit" [disabled]="!f.form.valid" label="login"></button>
       <label *ngIf="lerror">Login failed</label>
     </form>
 </p-dialog>
