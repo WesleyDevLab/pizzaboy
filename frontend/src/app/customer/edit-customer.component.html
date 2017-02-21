@@ -1,13 +1,5 @@
-<!--<alert type="success" *ngIf="saved">
-  <strong>Saved!</strong> Customer data saved
-</alert>
-<alert type="danger" *ngIf="error">
-  <strong>Error</strong> Customer data could not be saved
-</alert>
-<alert type="warning" *ngIf="nocustomer">
-  <strong>Error</strong> No customer data saved!
-</alert>-->
+<p-messages [value]="msgs"></p-messages>
 <form (ngSubmit)="save()" #f="ngForm">
   <app-customer></app-customer>
-  <button type="submit" [disabled]="!f.form.valid">save</button>
+  <button pButton type="submit" [disabled]="!f.form.valid" label="save"></button>
 </form>

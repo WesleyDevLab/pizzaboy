@@ -3,20 +3,17 @@ import { CustomerComponent } from './customer.component';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 
+import { Message } from 'primeng/primeng';
+
 @Component({
   selector: 'app-edit-customer',
   templateUrl: './edit-customer.component.html',
   styleUrls: ['./edit-customer.component.css']
 })
 export class EditCustomerComponent implements OnInit {
-  
-/*  @ViewChild(CustomerComponent)
-  private customerComponent: CustomerComponent;*/
   private c: Customer;
 
-  saved: boolean = false;
-  error: boolean = false;
-  nocustomer: boolean = false;
+  msgs: Message[] = [];
   
   constructor(private customerService: CustomerService) {
     this.customerService.custObservable.subscribe(c => this.c = c);
@@ -25,22 +22,20 @@ export class EditCustomerComponent implements OnInit {
   ngOnInit() {
     this.customerService.getCustomer().then(c => {
       console.log(c);
-      //this.customerComponent.customer = c;
     }).catch(c => {
       console.log("no customer data: " + c);
-      this.nocustomer = true;
+      this.msgs = [];
+      this.msgs.push({severity: 'info', detail: 'no customer data set!'});
     });
   }
 
   public save() {
-    //let c = this.customerComponent.customer;
     this.customerService.saveCustomer(this.c).then(() => {
-        this.nocustomer = false;
-        this.saved = true;
+        this.msgs = [];
+        this.msgs.push({severity: 'success', detail: 'customer data saved!'});
       }).catch(() => {
-        this.error = true;
-        this.saved = false;
-        this.nocustomer = false;
+        this.msgs = [];
+        this.msgs.push({severity: 'error', detail: 'something went wrong'});
       });
   }
 
