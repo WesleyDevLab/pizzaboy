@@ -1,29 +1,58 @@
-
-         <div class="form-group">
-           <label for="firstname">firstname:</label>
-           <input type="text" class="form-control" id="firstname" required [(ngModel)]="customer.firstname" name="firstname" />
-         </div>
-         <div class="form-group">
-           <label for="lastname">lastname:</label>
-           <input type="text" class="form-control" id="lastname" required [(ngModel)]="customer.lastname" name="lastname" />
-         </div>
-         <div class="form-group">
-           <label for="street">street:</label>
-           <input type="text" class="form-control" id="street" required [(ngModel)]="customer.street" name="street" />
-         </div>
-         <div class="form-group">
-           <label for="housenumber">number:</label>
-           <input type="number" class="form-control" id="housenumber" required [(ngModel)]="customer.housenumber" name="housenumber" />
-         </div>
-         <div class="form-group">
-           <label for="zip">zip:</label>
-           <input type="text" class="form-control" id="zip" required [(ngModel)]="customer.zip" name="zip" />
-         </div>
-         <div class="form-group">
-           <label for="city">city:</label>
-           <input type="text" class="form-control" id="city" required [(ngModel)]="customer.city" name="city" />
-         </div>
-         <div class="form-group">
-           <label for="phone">phone:</label>
-           <input type="tel" class="form-control" id="phone" required [(ngModel)]="customer.phone" name="phone" />
-         </div>
+<div class="ui-grid">
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="firstname">firstname:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="text" pInputText id="firstname" required [(ngModel)]="customer.firstname" name="firstname" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="lastname">lastname:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="text" pInputText id="lastname" required [(ngModel)]="customer.lastname" name="lastname" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="street">street:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="text" pInputText id="street" required [(ngModel)]="customer.street" name="street" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="housenumber">number:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="number" pInputText id="housenumber" required [(ngModel)]="customer.housenumber" name="housenumber" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="zip">zip:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="text" pInputText id="zip" required [(ngModel)]="customer.zip" name="zip" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="city">city:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="text" pInputText id="city" required [(ngModel)]="customer.city" name="city" />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="phone">phone:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="tel" pInputText id="phone" required [(ngModel)]="customer.phone" name="phone" />
+    </div>
+  </div>
+</div>

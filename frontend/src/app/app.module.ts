@@ -46,6 +46,7 @@ import { SpinnerModule } from 'primeng/primeng';
 import { DataTableModule, SharedModule } from 'primeng/primeng';
 import { GrowlModule } from 'primeng/primeng';
 import { PickListModule } from 'primeng/primeng';
+import { CheckboxModule } from 'primeng/primeng';
 
 
 const appRoutes: Routes = [
@@ -100,7 +101,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SpinnerModule,
     DataTableModule,
     GrowlModule,
-    PickListModule
+    PickListModule,
+    CheckboxModule
   ],
   providers: [PizzaService, ShoppingCartService, AuthenticationService, CustomerService,
   {

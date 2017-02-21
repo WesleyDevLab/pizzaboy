@@ -11,5 +11,5 @@
   <div *ngIf="items.length == 0" class="ui-g-6">No Items</div>
 </div>
 <div class="ui-g">
-  <div class="ui-g-6"><button routerLink="/order" [disabled]="items.length < 1">order now</button></div>
+  <div class="ui-g-6"><button pButton routerLink="/order" [disabled]="items.length < 1" label="order now"></button></div>
 </div>

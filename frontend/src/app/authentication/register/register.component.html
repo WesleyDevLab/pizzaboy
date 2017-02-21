@@ -1,13 +1,27 @@
-<div class="form-group">
-  <label for="mail" *ngIf="msgexists">{{ msgexists }}</label>
-  <label for="mail">email:</label>
-  <input type="email" class="form-control" id="mail" [(ngModel)]="mail" name="mail" />
-</div>
-<div class="form-group">
-  <label for="pw">password:</label>
-  <input type="password" class="form-control" id="pw" [(ngModel)]="pw1" name="pw1" />
-</div>
-<div class="form-group">
-  <label for="pw2">password (retype):</label>
-  <input type="password" class="form-control" id="pw2" [(ngModel)]="pw2" name="pw2" />
+<div class="ui-grid">
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="mail" *ngIf="msgexists">{{ msgexists }}</label>
+      <label for="mail">email:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="email" pInputText id="mail" [(ngModel)]="mail" name="mail" required />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="pw">password:</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="password" pInputText id="pw" [(ngModel)]="pw1" name="pw1" required />
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-2">
+      <label for="pw2">password (retype):</label>
+    </div>
+    <div class="ui-grid-col-10">
+      <input type="password" pInputText id="pw2" [(ngModel)]="pw2" name="pw2" required />
+    </div>
+  </div>
 </div>
